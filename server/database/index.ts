@@ -2,7 +2,6 @@ import { DrizzleSQLiteAdapter } from '@lucia-auth/adapter-drizzle';
 import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
 import * as auth from './schema/auth';
-import
 
 const client = createClient({
   // url: 'file:test.db',
