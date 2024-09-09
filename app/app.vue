@@ -29,7 +29,7 @@
 </script>
 
 <template>
-  <div>
+  <div class="font-sans">
     <NuxtRouteAnnouncer />
     <NuxtLoadingIndicator />
     <NuxtLayout>
