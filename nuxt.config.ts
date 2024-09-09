@@ -6,6 +6,11 @@ export default defineNuxtConfig({
   modules: ['@nuxt/ui', '@nuxt/image', 'nuxt-security'],
   devtools: { enabled: true },
 
+  runtimeConfig: {
+    databaseUrl: process.env.DATABASE_URL,
+    databaseAuthToken: process.env.DATABASE_AUTH_TOKEN,
+  },
+
   app: {
     head: {
       title: 'Rombis Lajon',
