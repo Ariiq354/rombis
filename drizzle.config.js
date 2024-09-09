@@ -1,10 +1,10 @@
 /** @type { import("drizzle-kit").Config } */
 export default {
-  schema: "./server/database/schema/*",
-  dialect: "sqlite",
-  driver: "turso",
+  schema: './server/database/schema/*',
+  dialect: 'sqlite',
+  driver: 'turso',
   dbCredentials: {
-    url: "file:test.db",
+    url: 'file:test.db',
     // url: process.env.DATABASE_URL ?? "",
     // authToken: process.env.DATABASE_AUTH_TOKEN ?? "",
   },
