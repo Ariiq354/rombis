@@ -42,7 +42,7 @@
         >
           <UIcon :name="childrenItem.icon" />
           <p
-            class="tracking-wide text-black"
+            class="tracking-wide text-black hover:text-white"
             :class="{ 'font-semibold': route.fullPath === childrenItem.link }"
           >
             {{ childrenItem.title }}
