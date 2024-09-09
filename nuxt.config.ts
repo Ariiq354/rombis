@@ -11,16 +11,6 @@ export default defineNuxtConfig({
     databaseAuthToken: process.env.DATABASE_AUTH_TOKEN,
   },
 
-  app: {
-    head: {
-      title: 'Rombis Lajon',
-    },
-  },
-
-  colorMode: {
-    preference: 'light',
-  },
-
   icon: {
     serverBundle: {
       collections: ['heroicons'],
