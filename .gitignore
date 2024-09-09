@@ -5,8 +5,7 @@
 .nitro
 .cache
 dist
-test.db
-seed
+
 
 # Node dependencies
 node_modules
@@ -19,6 +18,8 @@ logs
 .DS_Store
 .fleet
 .idea
+test.db
+seed
 
 # Local env files
 .env
