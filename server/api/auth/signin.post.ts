@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 const loginSchema = z.object({
   username: z.string(),
-  password: z.string().min(8)
+  password: z.string().min(8),
 });
 
 export default eventHandler(async (event) => {
@@ -20,7 +20,7 @@ export default eventHandler(async (event) => {
   if (!existingUser) {
     throw createError({
       statusMessage: 'Incorrect username or password',
-      statusCode: 400
+      statusCode: 400,
     });
   }
 
@@ -28,10 +28,10 @@ export default eventHandler(async (event) => {
   if (!validPassword) {
     throw createError({
       statusMessage: 'Incorrect username or password',
-      statusCode: 400
+      statusCode: 400,
     });
   }
 
-  // const session = await lucia.createSession(existingUser.id, {});
-  // appendHeader(event, 'Set-Cookie', lucia.createSessionCookie(session.id).serialize());
+  const session = await lucia.createSession(existingUser.id, {});
+  appendHeader(event, 'Set-Cookie', lucia.createSessionCookie(session.id).serialize());
 });

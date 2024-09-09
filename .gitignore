@@ -5,6 +5,8 @@
 .nitro
 .cache
 dist
+test.db
+seed
 
 # Node dependencies
 node_modules
