@@ -17,6 +17,10 @@ export default defineNuxtConfig({
     },
   },
 
+  colorMode: {
+    preference: 'light',
+  },
+
   icon: {
     serverBundle: {
       collections: ['heroicons'],
