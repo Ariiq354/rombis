@@ -14,6 +14,31 @@
           link: '/dashboard',
           icon: 'i-heroicons-home',
         },
+        {
+          title: 'Laporan',
+          link: '/dashboard/laporan',
+          icon: 'i-heroicons-presentation-chart-bar',
+        },
+      ],
+    },
+    {
+      title: 'Apps',
+      items: [
+        {
+          title: 'User',
+          link: '/dashboard/user',
+          icon: 'i-heroicons-user',
+        },
+        {
+          title: 'Ticket',
+          link: '/dashboard/ticket',
+          icon: 'i-heroicons-ticket',
+        },
+        {
+          title: 'Pemesanan',
+          link: '/dashboard/pemesanan',
+          icon: 'i-heroicons-shopping-cart',
+        },
       ],
     },
   ];
@@ -26,18 +51,18 @@
     :class="sidebarOpenState ? 'w-72' : 'w-0'"
   >
     <div
-      class="flex h-16 items-center justify-center gap-2 text-3xl font-semibold tracking-widest text-green-500"
+      class="flex h-24 items-center justify-center gap-2 text-3xl font-semibold tracking-widest text-green-500"
     >
       <UIcon name="i-heroicons-globe-alt" class="h-9 w-9" />
-      <span>ROMBUS</span>
+      <span>ROMBIS</span>
     </div>
     <div v-for="(item, index) in sidebarItems" :key="index">
-      <h1 class="px-6 py-2 text-xs font-bold uppercase tracking-wide text-green-500">
+      <h1 class="px-7 py-4 text-xs font-bold uppercase text-green-500">
         {{ item.title }}
       </h1>
       <div v-for="(childrenItem, index) in item.items" :key="index">
         <NuxtLink
-          class="flex w-full items-center gap-2 px-6 py-2 text-base text-green-500 transition-all duration-200 hover:bg-slate-100"
+          class="flex w-full items-center gap-2 px-7 py-3 text-base transition-all duration-200 hover:bg-slate-100"
           :to="childrenItem.link"
         >
           <UIcon :name="childrenItem.icon" />
