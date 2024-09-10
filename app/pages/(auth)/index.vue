@@ -8,7 +8,7 @@
 
   const user = useUser();
 
-  if (user) {
+  if (user.value) {
     await navigateTo('/dashboard');
   }
 
