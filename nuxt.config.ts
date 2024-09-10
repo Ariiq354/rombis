@@ -3,12 +3,18 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  modules: ['@nuxt/ui', '@nuxt/image', 'nuxt-security'],
+  modules: ['@nuxt/ui', '@nuxt/image', 'nuxt-security', '@nuxtjs/google-fonts'],
   devtools: { enabled: true },
 
   runtimeConfig: {
     databaseUrl: process.env.DATABASE_URL,
     databaseAuthToken: process.env.DATABASE_AUTH_TOKEN,
+  },
+
+  googleFonts: {
+    families: {
+      Poppins: true,
+    },
   },
 
   icon: {

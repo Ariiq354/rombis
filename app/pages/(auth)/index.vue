@@ -6,6 +6,12 @@
     layout: 'auth',
   });
 
+  const user = useUser();
+
+  if (user) {
+    await navigateTo('/dashboard');
+  }
+
   const loginSchema = z.object({
     username: z.string(),
     password: z.string().min(8, 'Must be at least 8 characters'),
