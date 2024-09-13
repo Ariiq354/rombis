@@ -6,7 +6,7 @@
   const { data, status, refresh } = await useLazyFetch('/api/user');
 
   // Table
-  const tableRef = ref();
+  const table = useTemplateRef('tableRef');
 
   const initialFormData = {
     id: '',
@@ -47,13 +47,17 @@
 
   async function clickDelete() {
     async function onDelete() {
-      const idArray = tableRef.value.selected.map((item: any) => item.id);
+      const idArray = table.value?.selected.map((item: any) => item.id);
       await $fetch('/api/user', {
         method: 'DELETE',
         body: {
           id: idArray,
         },
       });
+      if (table.value) {
+        table.value.selected = [];
+      }
+      await refresh();
     }
 
     openConfirmModal(onDelete);
@@ -120,7 +124,7 @@
             variant="soft"
             class="disabled:opacity-50"
             @click="clickDelete"
-            :disabled="tableRef ? tableRef.selected.length === 0 : true"
+            :disabled="table ? table?.selected.length === 0 : true"
           >
             Delete
           </UButton>

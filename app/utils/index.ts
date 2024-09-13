@@ -37,9 +37,6 @@ export function openConfirmModal(anyFunction: () => Promise<void>) {
     function: anyFunction,
     async onSuccess() {
       modal.close();
-      reloadNuxtApp({
-        force: true,
-      });
     },
   });
 }
