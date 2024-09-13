@@ -8,12 +8,14 @@
     rowClass?: string;
   };
 
-  const { data, columns } = defineProps<{
+  const { data: propData, columns } = defineProps<{
     data: any[] | undefined;
     columns: Columns[];
     loading?: boolean;
     label: string;
   }>();
+
+  const data = toRef(() => propData);
 
   const columnsWithRowNumbers = computed(() => {
     return [
@@ -32,7 +34,7 @@
 
   const dataWithRowNumber = computed(() => {
     if (data) {
-      return data.map((item, index) => ({
+      return data.value?.map((item, index) => ({
         rowNumber: index + 1,
         ...item,
       }));
@@ -47,7 +49,7 @@
       return dataWithRowNumber.value;
     }
 
-    return dataWithRowNumber.value.filter((item: any) => {
+    return dataWithRowNumber.value?.filter((item: any) => {
       return Object.values(item).some((value) => {
         return String(value).toLowerCase().includes(searchQuery.value.toLowerCase());
       });

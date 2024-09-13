@@ -3,7 +3,7 @@
   import { columns, schema, type Schema } from './constant';
 
   // Fetch data
-  const { data, status } = await useFetch('/api/user');
+  const { data, status, refresh } = await useLazyFetch('/api/user');
 
   // Table
   const tableRef = ref();
@@ -32,9 +32,7 @@
 
       modalLoading.value = false;
       modalOpen.value = false;
-      reloadNuxtApp({
-        force: true,
-      });
+      await refresh();
     } catch (error: any) {
       useToastError(error.statusCode, error.statusMessage);
       modalLoading.value = false;
@@ -154,7 +152,6 @@
           />
         </template>
       </AppTable>
-      <!-- <UTable :columns="columns" :rows="data" :loading="status === 'pending'"></UTable> -->
     </UCard>
   </main>
 </template>
