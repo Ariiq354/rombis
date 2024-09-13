@@ -26,7 +26,7 @@
 
   async function onSubmit(event: FormSubmitEvent<Schema>) {
     try {
-      await $fetch('/api/auth/signin', {
+      await $fetch('/api/', {
         method: 'POST',
         body: event.data,
       });

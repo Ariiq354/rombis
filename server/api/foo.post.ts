@@ -1,5 +1,9 @@
 export default defineEventHandler((event) => {
-  return {
-    id: '1',
-  };
+  const data: {
+    id: string;
+    username: string;
+    status: number;
+  }[] = [];
+
+  return data;
 });
