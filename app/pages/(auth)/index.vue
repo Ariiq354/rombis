@@ -27,7 +27,7 @@
   const isLoading = ref(false);
   async function onSubmit(event: FormSubmitEvent<Schema>) {
     try {
-      await $fetch('/api/', {
+      await $fetch('/api/login', {
         method: 'POST',
         body: event.data,
       });
