@@ -8,14 +8,14 @@
     rowClass?: string;
   };
 
-  const { data: propData, columns } = defineProps<{
+  const props = defineProps<{
     data: any[] | undefined;
     columns: Columns[];
     loading?: boolean;
     label: string;
   }>();
 
-  const data = toRef(() => propData);
+  const data = toRef(() => props.data);
 
   const columnsWithRowNumbers = computed(() => {
     return [
@@ -24,7 +24,7 @@
         label: 'No.',
         sortable: true,
       },
-      ...columns,
+      ...props.columns,
       {
         key: 'actions',
         label: 'Actions',
