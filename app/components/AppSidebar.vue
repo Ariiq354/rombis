@@ -47,7 +47,7 @@
 <template>
   <div
     id="sidebar"
-    class="h-screen overflow-hidden border-slate-700 bg-white shadow-lg transition-all duration-200 dark:border-r dark:bg-slate-900"
+    class="sticky top-0 h-screen overflow-hidden border-slate-700 bg-white shadow-lg transition-all duration-200 dark:border-r dark:bg-slate-900"
     :class="sidebarOpenState ? 'w-72' : 'w-0'"
   >
     <div

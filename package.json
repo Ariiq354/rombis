@@ -19,7 +19,7 @@
     "@nuxtjs/google-fonts": "^3.2.0",
     "drizzle-orm": "^0.33.0",
     "lucia": "^3.2.0",
-    "nuxt": "^3.13.0",
+    "nuxt": "^3.13.1",
     "nuxt-security": "^2.0.0-rc.9",
     "oslo": "^1.2.1",
     "vue": "latest",
