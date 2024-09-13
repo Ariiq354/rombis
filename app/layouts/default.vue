@@ -1,6 +1,8 @@
 <script setup lang="ts">
   const sidebarOpenState = ref(true);
 
+  const user = useUser();
+
   function toggleSidebar() {
     sidebarOpenState.value = !sidebarOpenState.value;
   }
@@ -10,6 +12,7 @@
       await $fetch('/api/auth/logout', {
         method: 'POST',
       });
+      user.value = null;
       await navigateTo('/');
     } catch (error) {
       throw createError({

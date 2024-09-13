@@ -1,6 +1,6 @@
 import { desc, eq, inArray } from 'drizzle-orm';
 import { db } from '../database';
-import { NewUser, userTable } from '../database/schema/auth';
+import { type NewUser, userTable } from '../database/schema/auth';
 
 export async function getAllUser() {
   return await db.query.userTable.findMany({

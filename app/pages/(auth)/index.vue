@@ -24,13 +24,16 @@
     password: undefined,
   });
 
+  const isLoading = ref(false);
   async function onSubmit(event: FormSubmitEvent<Schema>) {
     try {
-      await $fetch('/api/login', {
+      isLoading.value = true;
+      await $fetch('/api/auth/login', {
         method: 'POST',
         body: event.data,
       });
       await navigateTo('/dashboard');
+      isLoading.value = false;
     } catch (error: any) {
       useToastError(error.statusCode, error.statusMessage);
     }
@@ -72,7 +75,9 @@
         </NuxtLink>
       </div>
 
-      <UButton class="flex w-full justify-center" type="submit"> Submit </UButton>
+      <UButton class="flex w-full justify-center" type="submit" :loading="isLoading">
+        Submit
+      </UButton>
     </UForm>
   </UCard>
 </template>

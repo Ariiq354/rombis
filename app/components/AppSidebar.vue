@@ -65,8 +65,11 @@
           class="flex w-full items-center gap-2 px-7 py-3 text-base transition-all duration-200 hover:bg-slate-100"
           :to="childrenItem.link"
         >
-          <UIcon class="text-green-500" :name="childrenItem.icon" />
-          <p class="text-sm" :class="{ 'font-semibold': route.fullPath === childrenItem.link }">
+          <UIcon :name="childrenItem.icon" />
+          <p
+            class="tracking-wide"
+            :class="{ 'font-semibold': route.fullPath === childrenItem.link }"
+          >
             {{ childrenItem.title }}
           </p>
         </NuxtLink>
