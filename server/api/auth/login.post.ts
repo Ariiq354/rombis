@@ -24,13 +24,6 @@ export default eventHandler(async (event) => {
     });
   }
 
-  if (existingUser.role !== 1) {
-    throw createError({
-      statusMessage: 'Incorrect username or password',
-      statusCode: 400,
-    });
-  }
-
   const validPassword = await new Argon2id().verify(existingUser.password, password);
   if (!validPassword) {
     throw createError({
