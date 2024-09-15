@@ -31,7 +31,7 @@
 <template>
   <div class="font-Poppins">
     <NuxtRouteAnnouncer />
-    <NuxtLoadingIndicator />
+    <NuxtLoadingIndicator :height="5" />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>

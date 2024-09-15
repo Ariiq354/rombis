@@ -7,7 +7,7 @@ export const columns = [
     sortable: true,
   },
   {
-    key: 'is_active',
+    key: 'status',
     label: 'Status',
     sortable: true,
   },
@@ -16,7 +16,7 @@ export const columns = [
 export const schema = z.object({
   username: z.string(),
   password: z.string().min(8, 'Must be at least 8 characters'),
-  is_active: z.boolean(),
+  status: z.boolean(),
 });
 
 export type Schema = z.output<typeof schema>;

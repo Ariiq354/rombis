@@ -5,11 +5,11 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const res = await getAllUser();
+  const res = await getAllPlace();
   const data = res.map((item) => {
     return {
       id: item.id,
-      username: item.username,
+      name: item.name,
       is_active: item.is_active,
     };
   });

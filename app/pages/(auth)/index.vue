@@ -36,6 +36,7 @@
       isLoading.value = false;
     } catch (error: any) {
       useToastError(error.statusCode, error.statusMessage);
+      isLoading.value = false;
     }
   }
 </script>

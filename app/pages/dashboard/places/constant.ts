@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 export const columns = [
   {
-    key: 'username',
-    label: 'User name',
+    key: 'name',
+    label: 'Nama tempat',
     sortable: true,
   },
   {
@@ -14,8 +14,8 @@ export const columns = [
 ];
 
 export const schema = z.object({
-  username: z.string(),
-  password: z.string().min(8, 'Must be at least 8 characters'),
+  id: z.string(),
+  name: z.string(),
   is_active: z.boolean(),
 });
 

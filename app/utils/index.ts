@@ -1,5 +1,4 @@
 import { ModalConfirm } from '#components';
-import type { z } from 'zod';
 
 export function jsonToCsv(data: any[]) {
   const headers = Object.keys(data[0]).toString();
@@ -40,3 +39,5 @@ export function openConfirmModal(anyFunction: () => Promise<void>) {
     },
   });
 }
+
+export type ExtractObjectType<T> = T extends (infer U)[] ? U : never;

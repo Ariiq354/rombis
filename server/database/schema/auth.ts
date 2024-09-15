@@ -5,7 +5,8 @@ export const userTable = sqliteTable('user', {
   id: text('id').primaryKey(),
   username: text('username').notNull().unique(),
   password: text('password').notNull(),
-  status: int('status').notNull().default(0), // 0: inactive; 1: active;
+  is_active: int('is_active', { mode: 'boolean' }).notNull().default(false),
+  role: int('role').notNull().default(0),
   createdAt: text('created_at')
     .default(sql`(CURRENT_TIMESTAMP)`)
     .notNull(),

@@ -3,15 +3,14 @@
   import { columns, schema, type Schema } from './constant';
 
   // Fetch data
-  const { data, status, refresh } = await useLazyFetch('/api/user');
+  const { data, status, refresh } = await useLazyFetch('/api/place');
 
   // Table
   const table = useTemplateRef('tableRef');
 
   const initialFormData = {
     id: '',
-    username: '',
-    password: '',
+    name: '',
     is_active: false,
   };
   const state = ref({ ...initialFormData });
@@ -22,7 +21,7 @@
     try {
       modalLoading.value = true;
 
-      await $fetch('/api/user', {
+      await $fetch('/api/place', {
         method: 'POST',
         body: event.data,
       });
@@ -45,7 +44,7 @@
   async function clickDelete() {
     async function onDelete() {
       const idArray = table.value?.selected.map((item: any) => item.id);
-      await $fetch('/api/user', {
+      await $fetch('/api/place', {
         method: 'DELETE',
         body: {
           id: idArray,
@@ -60,11 +59,11 @@
     openConfirmModal(onDelete);
   }
 
-  async function clickUpdate(itemData: ExtractObjectType<typeof data.value>) {
+  async function clickUpdate(itemData: any) {
+    console.log(itemData);
     modalOpen.value = true;
-    state.value.username = itemData.username;
+    state.value.name = itemData.name;
     state.value.is_active = itemData.is_active;
-    state.value.password = '';
     state.value.id = itemData.id;
   }
 </script>
@@ -75,7 +74,7 @@
       <div class="p-4">
         <div class="mb-4 flex items-center justify-between">
           <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-            {{ state.id ? 'Edit' : 'Add' }} User
+            {{ state.id ? 'Edit' : 'Add' }} Tempat
           </h3>
           <UButton
             color="gray"
@@ -87,12 +86,8 @@
           />
         </div>
         <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-          <UFormGroup label="Username" name="username">
-            <UInput v-model="state.username" :disabled="modalLoading" />
-          </UFormGroup>
-
-          <UFormGroup label="Password" name="password">
-            <UInput v-model="state.password" type="password" :disabled="modalLoading" />
+          <UFormGroup label="Nama Tempat" name="name">
+            <UInput v-model="state.name" :disabled="modalLoading" />
           </UFormGroup>
 
           <UFormGroup label="Status" name="is_active">

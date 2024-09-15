@@ -22,7 +22,7 @@
       ],
     },
     {
-      title: 'Apps',
+      title: 'User',
       items: [
         {
           title: 'User',
@@ -30,14 +30,29 @@
           icon: 'i-heroicons-user',
         },
         {
+          title: 'Pemesanan',
+          link: '/dashboard/pemesanan',
+          icon: 'i-heroicons-shopping-cart',
+        },
+      ],
+    },
+    {
+      title: 'Ticket',
+      items: [
+        {
           title: 'Ticket',
           link: '/dashboard/ticket',
           icon: 'i-heroicons-ticket',
         },
         {
-          title: 'Pemesanan',
-          link: '/dashboard/pemesanan',
-          icon: 'i-heroicons-shopping-cart',
+          title: 'Tempat',
+          link: '/dashboard/places',
+          icon: 'i-heroicons-building-office-2',
+        },
+        {
+          title: 'Bus',
+          link: '/dashboard/bus',
+          icon: 'i-heroicons-map-pin',
         },
       ],
     },
@@ -65,7 +80,7 @@
           class="flex w-full items-center gap-2 px-7 py-3 text-base transition-all duration-200 hover:bg-slate-100"
           :to="childrenItem.link"
         >
-          <UIcon :name="childrenItem.icon" />
+          <UIcon :name="childrenItem.icon" class="h-4 w-4" />
           <p
             class="tracking-wide"
             :class="{ 'font-semibold': route.fullPath === childrenItem.link }"
