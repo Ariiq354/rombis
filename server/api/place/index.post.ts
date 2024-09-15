@@ -8,7 +8,7 @@ const placeSchema = z.object({
 });
 
 export default defineEventHandler(async (event) => {
-  if (!event.context.session) {
+  if (event.context.user?.role !== 1) {
     throw createError({
       statusCode: 403,
     });
