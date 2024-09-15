@@ -6,9 +6,9 @@ import * as ticketing from './schema/ticketing';
 const config = useRuntimeConfig();
 
 const client = createClient({
-  url: 'file:test.db',
-  // url: config.databaseUrl,
-  // authToken: config.databaseAuthToken,
+  // url: 'file:test.db',
+  url: config.databaseUrl,
+  authToken: config.databaseAuthToken,
 });
 
 export const db = drizzle(client, {
