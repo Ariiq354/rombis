@@ -9,12 +9,6 @@ const userSchema = z.object({
 });
 
 export default defineEventHandler(async (event) => {
-  if (event.context.user?.role !== 1) {
-    throw createError({
-      statusCode: 403,
-    });
-  }
-
   const formData = await readBody(event);
 
   const parseRes = userSchema.parse(formData);
