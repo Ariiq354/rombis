@@ -2,14 +2,17 @@ import { z } from 'zod';
 
 export const columns = [
   {
-    key: 'username',
-    label: 'User name',
+    key: 'name',
+    label: 'Nama Bus',
     sortable: true,
   },
   {
-    key: 'status',
-    label: 'Status',
-    sortable: true,
+    key: 'description',
+    label: 'Deskripsi Bus',
+  },
+  {
+    key: 'route',
+    label: 'Rute',
   },
 ];
 

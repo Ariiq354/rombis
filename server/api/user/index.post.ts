@@ -1,7 +1,6 @@
 import { generateIdFromEntropySize } from 'lucia';
 import { Argon2id } from 'oslo/password';
 import { z } from 'zod';
-import { createUser, updateUser } from '~~/server/utils/user';
 
 const userSchema = z.object({
   id: z.string().optional(),

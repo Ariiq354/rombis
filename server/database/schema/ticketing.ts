@@ -14,5 +14,22 @@ export const placeTable = sqliteTable('places', {
     .notNull(),
 });
 
+export const busTable = sqliteTable('bus', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  description: text('description').notNull(),
+  route: text('route', { mode: 'json' }).$type<string[]>().notNull(),
+  createdAt: text('created_at')
+    .default(sql`(CURRENT_TIMESTAMP)`)
+    .notNull(),
+  updatedAt: text('updated_at')
+    .default(sql`(CURRENT_TIMESTAMP)`)
+    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`)
+    .notNull(),
+});
+
 export type Place = typeof placeTable.$inferSelect;
 export type NewPlace = typeof placeTable.$inferInsert;
+
+export type Bus = typeof busTable.$inferSelect;
+export type NewBus = typeof busTable.$inferInsert;
