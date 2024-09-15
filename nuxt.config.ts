@@ -11,6 +11,12 @@ export default defineNuxtConfig({
     databaseAuthToken: process.env.DATABASE_AUTH_TOKEN,
   },
 
+  nitro: {
+    experimental: {
+      openAPI: true,
+    },
+  },
+
   googleFonts: {
     families: {
       Poppins: true,
