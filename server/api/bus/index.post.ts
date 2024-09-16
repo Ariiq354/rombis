@@ -6,6 +6,8 @@ const busSchema = z.object({
   name: z.string(),
   description: z.string(),
   route: z.string().array(),
+  type: z.union([z.literal('2x2'), z.literal('1x1'), z.literal('2x3'), z.literal('1x2')]),
+  seat: z.number(),
 });
 
 export default defineEventHandler(async (event) => {

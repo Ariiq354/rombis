@@ -5,6 +5,11 @@ export default defineAppConfig({
         size: 'md',
       },
     },
+    select: {
+      default: {
+        size: 'md',
+      },
+    },
     input: {
       default: {
         size: 'md',

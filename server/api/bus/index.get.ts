@@ -12,6 +12,8 @@ export default defineEventHandler(async (event) => {
       name: item.name,
       description: item.description,
       route: item.route,
+      type: item.type,
+      seat: item.seat,
     };
   });
 
