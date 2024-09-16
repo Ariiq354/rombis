@@ -45,11 +45,6 @@
           icon: 'i-heroicons-ticket',
         },
         {
-          title: 'Tempat',
-          link: '/dashboard/places',
-          icon: 'i-heroicons-building-office-2',
-        },
-        {
           title: 'Bus',
           link: '/dashboard/bus',
           icon: 'i-heroicons-map-pin',

@@ -17,6 +17,11 @@
 
   const data = toRef(() => props.data);
 
+  function removeRowNumber(obj: any) {
+    delete obj['rowNumber'];
+    return obj;
+  }
+
   const columnsWithRowNumbers = computed(() => {
     return [
       {
@@ -103,7 +108,7 @@
           variant="outline"
           :ui="{ rounded: 'rounded-full' }"
           square
-          @click.stop="$emit('editClick', row)"
+          @click.stop="$emit('editClick', removeRowNumber(row))"
         />
       </template>
     </UTable>

@@ -9,9 +9,9 @@
   const table = useTemplateRef('tableRef');
 
   const initialFormData = {
-    id: '',
-    username: '',
-    password: '',
+    id: undefined,
+    username: undefined,
+    password: undefined,
     is_active: false,
   };
   const state = ref({ ...initialFormData });
@@ -37,7 +37,6 @@
   }
 
   function clickAdd() {
-    console.log(state.value, initialFormData);
     Object.assign(state.value, initialFormData);
     modalOpen.value = true;
   }
@@ -62,10 +61,7 @@
 
   async function clickUpdate(itemData: ExtractObjectType<typeof data.value>) {
     modalOpen.value = true;
-    state.value.username = itemData.username;
-    state.value.is_active = itemData.is_active;
-    state.value.password = '';
-    state.value.id = itemData.id;
+    Object.assign(state.value, itemData);
   }
 </script>
 
