@@ -7,6 +7,7 @@
 
   // Table
   const table = useTemplateRef('tableRef');
+  const testtime = ref();
 
   const initialFormData = {
     id: undefined,
@@ -111,8 +112,20 @@
 
               <UIcon name="i-heroicons-ellipsis-vertical" class="mt-3" />
               <div class="flex flex-col gap-2">
-                <UFormGroup v-for="(_, index) in addedRoute" :name="`route.${index + 1}`">
-                  <UInput v-model="state.route[index + 1]" :disabled="modalLoading" />
+                <UFormGroup
+                  v-for="(_, index) in addedRoute"
+                  :name="`route.${index + 1}`"
+                  :key="index"
+                >
+                  <UInput v-model="state.route[index + 1]" :disabled="modalLoading">
+                    <template #trailing>
+                      <UIcon
+                        name="i-heroicons-x-mark-16-solid"
+                        class="pointer-events-auto cursor-pointer"
+                        @click="state.route.splice(index + 1, 1)"
+                      />
+                    </template>
+                  </UInput>
                 </UFormGroup>
                 <UButton
                   icon="i-heroicons-plus"

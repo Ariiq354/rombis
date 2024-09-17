@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  modules: ['@nuxt/ui', '@nuxt/image', 'nuxt-security', '@nuxtjs/google-fonts'],
+  modules: ['@nuxt/ui', '@nuxt/image', 'nuxt-security', '@nuxt/fonts'],
   devtools: { enabled: true },
 
   runtimeConfig: {
@@ -14,12 +14,6 @@ export default defineNuxtConfig({
   nitro: {
     experimental: {
       openAPI: true,
-    },
-  },
-
-  googleFonts: {
-    families: {
-      Poppins: true,
     },
   },
 
