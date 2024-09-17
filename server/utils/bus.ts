@@ -8,6 +8,15 @@ export async function getAllBus() {
   });
 }
 
+export async function getBusById(id: string) {
+  return await db.query.busTable.findFirst({
+    where: eq(busTable.id, id),
+    with: {
+      ticket: true,
+    },
+  });
+}
+
 export async function createBus(data: NewBus) {
   return await db.insert(busTable).values(data);
 }

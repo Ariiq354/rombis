@@ -48,7 +48,7 @@
         variant="ghost"
       >
         <UIcon v-if="colorMode.value === 'dark'" name="i-heroicons-moon-solid" />
-        <UIcon v-if="colorMode.value === 'light'" name="i-heroicons-sun-solid" />
+        <UIcon v-else name="i-heroicons-sun-solid" />
       </UButton>
       <UDropdown :items="items">
         <UAvatar alt="Avatar" />

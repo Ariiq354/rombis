@@ -29,7 +29,7 @@
 </script>
 
 <template>
-  <div class="font-Poppins">
+  <div>
     <NuxtRouteAnnouncer />
     <NuxtLoadingIndicator :height="5" />
     <NuxtLayout>
@@ -39,3 +39,9 @@
     <UModals />
   </div>
 </template>
+
+<style>
+  body {
+    font-family: Poppins, sans-serif;
+  }
+</style>
