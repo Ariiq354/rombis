@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
 
   const res = deleteSchema.parse(formData);
 
-  await deleteTicketSeat(res.id);
+  await deleteTicket(res.id);
 
   return;
 });

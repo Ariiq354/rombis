@@ -197,7 +197,7 @@
       <AppTable
         :columns="columns"
         :data="data"
-        label="Manage User"
+        label="Manage Bus"
         ref="tableRef"
         :loading="status === 'pending'"
         @editClick="(e) => clickUpdate(e)"
