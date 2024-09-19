@@ -25,7 +25,7 @@ export const ticketTable = sqliteTable('ticket', {
     .notNull()
     .references(() => busTable.id),
   price: text('price', { mode: 'json' }).$type<number[]>().notNull(),
-  time: text('price', { mode: 'json' }).$type<string[]>().notNull(),
+  time: text('time', { mode: 'json' }).$type<string[]>().notNull(),
   createdAt: text('created_at')
     .default(sql`(CURRENT_TIMESTAMP)`)
     .notNull(),
