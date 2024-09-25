@@ -6,6 +6,11 @@ export default defineNuxtConfig({
   modules: ["@nuxt/ui", "nuxt-security", "@nuxt/fonts"],
   devtools: { enabled: true },
 
+  runtimeConfig: {
+    databaseUrl: process.env.DATABASE_URL,
+    databaseAuthToken: process.env.DATABASE_AUTH_TOKEN,
+  },
+
   routeRules: {
     "/dashboard": { redirect: "/dashboard/user" },
     "/dashboard/laporan": { redirect: "/dashboard/user" },
