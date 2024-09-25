@@ -105,7 +105,7 @@
         >
           <div class="flex w-full gap-4">
             <UFormGroup label="Nama Bus" name="id_bus" class="w-full">
-              <USelect
+              <USelectMenu
                 v-model="state.id_bus"
                 :options="busData"
                 option-attribute="name"

@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
       seat: item.seat,
       route: item.route,
       is_paid: item.is_paid,
-      user_name: item.user.username,
+      username: item.user.username,
     };
   });
 
