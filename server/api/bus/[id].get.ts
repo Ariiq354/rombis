@@ -1,11 +1,23 @@
+import { z } from "zod";
+
+const querySchema = z
+  .object({
+    is_available: z.boolean().optional(),
+  })
+  .strict();
+
 export default defineEventHandler(async (event) => {
   publicFunction(event);
 
-  const id = getRouterParam(event, 'id');
+  const res = await getValidatedQuery(event, (query) =>
+    querySchema.parse(query)
+  );
+
+  const id = getRouterParam(event, "id");
   if (id) {
-    const res = await getBusById(id);
-    if (res) {
-      const ticketData = res.ticket.map((item) => {
+    const busData = await getBusById(id, res.is_available);
+    if (busData) {
+      const ticketData = busData.ticket.map((item) => {
         return {
           id: item.id,
           price: item.price,
@@ -15,12 +27,12 @@ export default defineEventHandler(async (event) => {
       });
 
       return {
-        id: res.id,
-        name: res.name,
-        description: res.description,
-        route: res.route,
-        type: res.type,
-        seat: res.seat,
+        id: busData.id,
+        name: busData.name,
+        description: busData.description,
+        route: busData.route,
+        type: busData.type,
+        seat: busData.seat,
         ticket: ticketData,
       };
     }
