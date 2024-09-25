@@ -6,48 +6,48 @@
   const route = useRoute();
 
   const sidebarItems = [
+    // {
+    //   title: 'Dashboards',
+    //   items: [
+    //     {
+    //       title: 'Dashboard',
+    //       link: '/dashboard',
+    //       icon: 'i-heroicons-home',
+    //     },
+    //     {
+    //       title: 'Laporan',
+    //       link: '/dashboard/laporan',
+    //       icon: 'i-heroicons-presentation-chart-bar',
+    //     },
+    //   ],
+    // },
     {
-      title: 'Dashboards',
+      title: "User",
       items: [
         {
-          title: 'Dashboard',
-          link: '/dashboard',
-          icon: 'i-heroicons-home',
+          title: "User",
+          link: "/dashboard/user",
+          icon: "i-heroicons-user",
         },
         {
-          title: 'Laporan',
-          link: '/dashboard/laporan',
-          icon: 'i-heroicons-presentation-chart-bar',
+          title: "Pemesanan",
+          link: "/dashboard/pemesanan",
+          icon: "i-heroicons-shopping-cart",
         },
       ],
     },
     {
-      title: 'User',
+      title: "Ticket",
       items: [
         {
-          title: 'User',
-          link: '/dashboard/user',
-          icon: 'i-heroicons-user',
+          title: "Ticket",
+          link: "/dashboard/ticket",
+          icon: "i-heroicons-ticket",
         },
         {
-          title: 'Pemesanan',
-          link: '/dashboard/pemesanan',
-          icon: 'i-heroicons-shopping-cart',
-        },
-      ],
-    },
-    {
-      title: 'Ticket',
-      items: [
-        {
-          title: 'Ticket',
-          link: '/dashboard/ticket',
-          icon: 'i-heroicons-ticket',
-        },
-        {
-          title: 'Bus',
-          link: '/dashboard/bus',
-          icon: 'i-heroicons-map-pin',
+          title: "Bus",
+          link: "/dashboard/bus",
+          icon: "i-heroicons-map-pin",
         },
       ],
     },

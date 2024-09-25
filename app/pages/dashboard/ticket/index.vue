@@ -255,76 +255,85 @@
           Export
         </UButton>
       </div>
-      <div class="grid grid-cols-4">
-        <template v-for="item in data" :key="index">
-          <div
-            class="flex cursor-pointer flex-col gap-4 rounded-lg border p-4"
-            :class="{
-              'shadow-lg': deleteArray.includes(item.id),
-            }"
-            @click="
-              () =>
-                !deleteArray.includes(item.id)
-                  ? deleteArray.push(item.id)
-                  : (deleteArray = deleteArray.filter(
-                      (arrItem) => arrItem !== item.id
-                    ))
-            "
-          >
-            <div class="flex items-center justify-between">
-              <h1 class="font-bold">{{ item.bus.name }}</h1>
-              <h2>
-                {{ item.date }}
-              </h2>
-            </div>
-            <div class="flex justify-between gap-4">
-              <div class="flex flex-col gap-2">
-                <div class="flex items-center">
-                  <UIcon name="i-heroicons-ellipsis-vertical" />
-                  <UBadge
-                    size="xs"
-                    :label="item.bus.route[0]"
-                    color="emerald"
-                    variant="solid"
-                    class="w-full justify-center rounded-full"
-                  />
-                </div>
-                <div class="flex items-center">
-                  <UIcon name="i-heroicons-ellipsis-vertical" />
-                  <UBadge
-                    size="xs"
-                    :label="item.bus.route[item.bus.route.length - 1]"
-                    color="emerald"
-                    variant="solid"
-                    class="w-full justify-center rounded-full"
-                  />
-                </div>
+      <div class="grid grid-cols-4" v-if="data && data.length > 0">
+        <div
+          class="flex cursor-pointer flex-col gap-4 rounded-lg border p-4"
+          v-for="(item, index) in data"
+          :key="index"
+          :class="{
+            'shadow-lg': deleteArray.includes(item.id),
+          }"
+          @click="
+            () =>
+              !deleteArray.includes(item.id)
+                ? deleteArray.push(item.id)
+                : (deleteArray = deleteArray.filter(
+                    (arrItem) => arrItem !== item.id
+                  ))
+          "
+        >
+          <div class="flex items-center justify-between">
+            <h1 class="font-bold">{{ item.bus.name }}</h1>
+            <h2>
+              {{ item.date }}
+            </h2>
+          </div>
+          <div class="flex justify-between gap-4">
+            <div class="flex flex-col gap-2">
+              <div class="flex items-center">
+                <UIcon name="i-heroicons-ellipsis-vertical" />
+                <UBadge
+                  size="xs"
+                  :label="item.bus.route[0]"
+                  color="emerald"
+                  variant="solid"
+                  class="w-full justify-center rounded-full"
+                />
               </div>
-              <div class="flex flex-col items-end">
-                <p>{{ item.bus.seat }} kursi</p>
-                <p>{{ item.bus.type }}</p>
+              <div class="flex items-center">
+                <UIcon name="i-heroicons-ellipsis-vertical" />
+                <UBadge
+                  size="xs"
+                  :label="item.bus.route[item.bus.route.length - 1]"
+                  color="emerald"
+                  variant="solid"
+                  class="w-full justify-center rounded-full"
+                />
               </div>
             </div>
-            <div
-              class="flex items-center justify-between font-semibold text-blue-600"
-            >
-              <p>
-                {{
-                  "Rp." +
-                  Math.min(...item.price).toLocaleString("id-ID") +
-                  " - " +
-                  "Rp." +
-                  Math.max(...item.price).toLocaleString("id-ID")
-                }}
-              </p>
-              <UButton
-                class="rounded-full"
-                @click.stop="() => clickUpdate(item.id)"
-                >Pilih</UButton
-              >
+            <div class="flex flex-col items-end">
+              <p>{{ item.bus.seat }} kursi</p>
+              <p>{{ item.bus.type }}</p>
             </div>
           </div>
-        </template>
+          <div
+            class="flex items-center justify-between font-semibold text-blue-600"
+          >
+            <p>
+              {{
+                "Rp." +
+                Math.min(...item.price).toLocaleString("id-ID") +
+                " - " +
+                "Rp." +
+                Math.max(...item.price).toLocaleString("id-ID")
+              }}
+            </p>
+            <UButton
+              class="rounded-full"
+              @click.stop="() => clickUpdate(item.id)"
+              >Pilih</UButton
+            >
+          </div>
+        </div>
+      </div>
+      <div v-else class="flex w-full flex-col items-center py-12">
+        <UIcon
+          name="i-heroicons-circle-stack-20-solid"
+          class="mx-auto mb-4 h-6 w-6 text-gray-400 dark:text-gray-500"
+        />
+        <p class="text-center text-sm text-gray-900 dark:text-white">
+          No Items.
+        </p>
       </div>
     </UCard>
   </main>

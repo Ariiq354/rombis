@@ -6,6 +6,11 @@ export default defineNuxtConfig({
   modules: ["@nuxt/ui", "nuxt-security", "@nuxt/fonts"],
   devtools: { enabled: true },
 
+  routeRules: {
+    "/dashboard": { redirect: "/dashboard/user" },
+    "/dashboard/laporan": { redirect: "/dashboard/user" },
+  },
+
   security: {
     headers: {
       crossOriginEmbedderPolicy:
