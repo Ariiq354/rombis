@@ -1,6 +1,11 @@
-import { desc, eq, inArray } from 'drizzle-orm';
-import { db } from '~~/server/database';
-import { type NewBus, busTable } from '~~/server/database/schema/ticketing';
+import { desc, eq, gt, inArray } from "drizzle-orm";
+import { getCurrentDate } from "~/utils";
+import { db } from "~~/server/database";
+import {
+  type NewBus,
+  busTable,
+  ticketTable,
+} from "~~/server/database/schema/ticketing";
 
 export async function getAllBus() {
   return await db.query.busTable.findMany({
@@ -8,11 +13,18 @@ export async function getAllBus() {
   });
 }
 
-export async function getBusById(id: string) {
+export async function getBusById(id: string, is_available = false) {
+  let whereQuery;
+  if (is_available) {
+    whereQuery = gt(ticketTable.date, getCurrentDate());
+  }
+
   return await db.query.busTable.findFirst({
     where: eq(busTable.id, id),
     with: {
-      ticket: true,
+      ticket: {
+        where: whereQuery,
+      },
     },
   });
 }
