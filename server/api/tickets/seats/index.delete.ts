@@ -1,22 +1,17 @@
 import { z } from 'zod';
-import { deleteUser } from '~~/server/utils/user';
 
 const deleteSchema = z.object({
   id: z.array(z.string()),
 });
 
 export default defineEventHandler(async (event) => {
-  if (event.context.user?.role !== 1) {
-    throw createError({
-      statusCode: 403,
-    });
-  }
+  privateFunction(event);
 
   const formData = await readBody(event);
 
   const res = deleteSchema.parse(formData);
 
-  await deleteUser(res.id);
+  await deleteTicketSeat(res.id);
 
   return;
 });

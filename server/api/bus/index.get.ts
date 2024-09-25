@@ -1,9 +1,5 @@
 export default defineEventHandler(async (event) => {
-  if (!event.context.session) {
-    throw createError({
-      statusCode: 403,
-    });
-  }
+  publicFunction(event);
 
   const res = await getAllBus();
   const data = res.map((item) => {

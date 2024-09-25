@@ -1,6 +1,6 @@
 import { desc, eq, inArray } from 'drizzle-orm';
-import { db } from '../database';
-import { type NewBus, busTable } from '../database/schema/ticketing';
+import { db } from '~~/server/database';
+import { type NewBus, busTable } from '~~/server/database/schema/ticketing';
 
 export async function getAllBus() {
   return await db.query.busTable.findMany({

@@ -1,9 +1,6 @@
 export default defineEventHandler(async (event) => {
-  if (!event.context.session) {
-    throw createError({
-      statusCode: 403,
-    });
-  }
+  publicFunction(event);
+
   const id_user = getRouterParam(event, 'id_user');
   if (id_user) {
     const res = await getTicketSeatByUserId(id_user);

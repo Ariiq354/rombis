@@ -1,19 +1,14 @@
 <script setup lang="ts">
-  import type { FormSubmitEvent } from '#ui/types';
-  import { columns, schema, type Schema } from './constant';
+  import type { FormSubmitEvent } from "#ui/types";
+  import { columns, initialFormData, schema, type Schema } from "./constant";
+  import { jsonToCsv } from "~/utils";
 
   // Fetch data
-  const { data, status, refresh } = await useLazyFetch('/api/user');
+  const { data, status, refresh } = await useLazyFetch("/api/users");
 
   // Table
-  const table = useTemplateRef('tableRef');
+  const table = useTemplateRef("tableRef");
 
-  const initialFormData = {
-    id: undefined,
-    username: undefined,
-    password: undefined,
-    is_active: false,
-  };
   const state = ref({ ...initialFormData });
 
   const modalOpen = ref(false);
@@ -22,8 +17,8 @@
     try {
       modalLoading.value = true;
 
-      await $fetch('/api/user', {
-        method: 'POST',
+      await $fetch("/api/user", {
+        method: "POST",
         body: event.data,
       });
 
@@ -44,8 +39,8 @@
   async function clickDelete() {
     async function onDelete() {
       const idArray = table.value?.selected.map((item: any) => item.id);
-      await $fetch('/api/user', {
-        method: 'DELETE',
+      await $fetch("/api/user", {
+        method: "DELETE",
         body: {
           id: idArray,
         },
@@ -70,8 +65,10 @@
     <UModal v-model="modalOpen" prevent-close>
       <div class="p-4">
         <div class="mb-4 flex items-center justify-between">
-          <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-            {{ state.id ? 'Edit' : 'Add' }} User
+          <h3
+            class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
+          >
+            {{ state.id ? "Edit" : "Add" }} User
           </h3>
           <UButton
             color="gray"
@@ -82,13 +79,22 @@
             :disabled="status === 'pending'"
           />
         </div>
-        <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+        <UForm
+          :schema="schema"
+          :state="state"
+          class="space-y-4"
+          @submit="onSubmit"
+        >
           <UFormGroup label="Username" name="username">
             <UInput v-model="state.username" :disabled="modalLoading" />
           </UFormGroup>
 
           <UFormGroup label="Password" name="password">
-            <UInput v-model="state.password" type="password" :disabled="modalLoading" />
+            <UInput
+              v-model="state.password"
+              type="password"
+              :disabled="modalLoading"
+            />
           </UFormGroup>
 
           <UFormGroup label="Status" name="is_active">
@@ -104,7 +110,11 @@
             >
               Cancel
             </UButton>
-            <UButton type="submit" icon="i-heroicons-check-16-solid" :loading="modalLoading">
+            <UButton
+              type="submit"
+              icon="i-heroicons-check-16-solid"
+              :loading="modalLoading"
+            >
               Save
             </UButton>
           </div>
@@ -114,7 +124,9 @@
     <UCard>
       <div class="mb-6 flex items-center justify-between rounded-lg border p-4">
         <div class="flex gap-2">
-          <UButton icon="i-heroicons-plus" variant="soft" @click="clickAdd">Add</UButton>
+          <UButton icon="i-heroicons-plus" variant="soft" @click="clickAdd"
+            >Add</UButton
+          >
           <UButton
             icon="i-heroicons-trash"
             variant="soft"

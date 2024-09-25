@@ -1,4 +1,4 @@
-import { ModalConfirm } from '#components';
+import { ModalConfirm } from "#components";
 
 export function jsonToCsv(data: any[]) {
   const headers = Object.keys(data[0]).toString();
@@ -7,16 +7,16 @@ export function jsonToCsv(data: any[]) {
     return Object.values(item).toString();
   });
 
-  const csv = [headers, ...main].join('\n');
+  const csv = [headers, ...main].join("\n");
 
-  const blob = new Blob([csv], { type: 'application/csv' });
+  const blob = new Blob([csv], { type: "application/csv" });
 
   const url = URL.createObjectURL(blob);
 
-  const a = document.createElement('a');
-  a.download = 'data.csv';
+  const a = document.createElement("a");
+  a.download = "data.csv";
   a.href = url;
-  a.style.display = 'none';
+  a.style.display = "none";
 
   document.body.appendChild(a);
 
@@ -27,6 +27,14 @@ export function jsonToCsv(data: any[]) {
 
 export function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export function getCurrentDate() {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+  const day = String(currentDate.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 export function openConfirmModal(anyFunction: () => Promise<void>) {

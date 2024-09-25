@@ -20,3 +20,10 @@ export const schema = z.object({
 });
 
 export type Schema = z.output<typeof schema>;
+
+export const initialFormData = {
+  id: undefined,
+  username: undefined,
+  password: undefined,
+  is_active: false,
+};

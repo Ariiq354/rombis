@@ -1,12 +1,13 @@
 import { desc, eq, inArray } from 'drizzle-orm';
-import { db } from '../database';
-import { type NewUser, userTable } from '../database/schema/auth';
+import { db } from '~~/server/database';
+import { type NewUser, userTable } from '~~/server/database/schema/auth';
 
 export async function getAllUser() {
   return await db.query.userTable.findMany({
     orderBy: desc(userTable.createdAt),
   });
 }
+
 export async function getUserByUsername(username: string) {
   return await db.query.userTable.findFirst({
     where: eq(userTable.username, username),

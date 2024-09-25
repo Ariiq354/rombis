@@ -1,12 +1,21 @@
-export default defineEventHandler(async (event) => {
-  if (!event.context.session) {
-    throw createError({
-      statusCode: 403,
-    });
-  }
+import { z } from "zod";
 
-  const res = await getAllTicket();
-  const data = res.map((item) => {
+const querySchema = z
+  .object({
+    is_available: z.boolean().optional(),
+  })
+  .strict();
+
+export default defineEventHandler(async (event) => {
+  publicFunction(event);
+
+  const res = await getValidatedQuery(event, (query) =>
+    querySchema.parse(query)
+  );
+
+  const dataTicket = await getAllTicket(res.is_available);
+
+  const data = dataTicket.map((item) => {
     const busData = {
       desciption: item.bus.description,
       name: item.bus.name,

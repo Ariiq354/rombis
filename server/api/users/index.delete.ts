@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { deleteUser } from '~~/server/utils/data-access/user';
 
 const deleteSchema = z.object({
   id: z.array(z.string()),
@@ -7,11 +8,9 @@ const deleteSchema = z.object({
 export default defineEventHandler(async (event) => {
   privateFunction(event);
 
-  const formData = await readBody(event);
+  const formData = await readValidatedBody(event, (body) => deleteSchema.parse(body));
 
-  const res = deleteSchema.parse(formData);
-
-  await deleteBus(res.id);
+  await deleteUser(formData.id);
 
   return;
 });

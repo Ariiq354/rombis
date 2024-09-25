@@ -1,14 +1,21 @@
-import { desc, eq, inArray } from 'drizzle-orm';
-import { db } from '../database';
-import { type NewTicket, ticketTable } from '../database/schema/ticketing';
+import { count, desc, eq, gt, inArray } from 'drizzle-orm';
+import { getCurrentDate } from '~/utils';
+import { db } from '~~/server/database';
+import { type NewTicket, ticketTable } from '~~/server/database/schema/ticketing';
 
-export async function getAllTicket() {
+export async function getAllTicket(is_available = false) {
+  let whereQuery;
+  if (is_available) {
+    whereQuery = gt(ticketTable.date, getCurrentDate());
+  }
+
   return await db.query.ticketTable.findMany({
     orderBy: desc(ticketTable.createdAt),
     with: {
       bus: true,
       ticketSeat: true,
     },
+    where: whereQuery,
   });
 }
 
