@@ -1,5 +1,5 @@
 import { Argon2id } from 'oslo/password';
-import { getUserByUsername } from '../../utils/user';
+import { getUserByUsername } from '../../utils/data-access/user';
 import { z } from 'zod';
 
 const loginSchema = z.object({

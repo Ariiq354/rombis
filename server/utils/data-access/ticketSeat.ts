@@ -1,6 +1,6 @@
 import { desc, eq, inArray } from 'drizzle-orm';
-import { db } from '../database';
-import { type NewTicketSeat, ticketSeatTable } from '../database/schema/ticketing';
+import { db } from '~~/server/database';
+import { type NewTicketSeat, ticketSeatTable } from '~~/server/database/schema/ticketing';
 
 export async function getAllTicketSeat() {
   return await db.query.ticketSeatTable.findMany({

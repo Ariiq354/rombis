@@ -10,36 +10,27 @@ const userSchema = z.object({
 });
 
 export default defineEventHandler(async (event) => {
-  if (event.context.user?.role !== 1) {
-    throw createError({
-      statusCode: 403,
-    });
-  }
+  privateFunction(event);
 
-  const formData = await readBody(event);
-
-  const parseRes = userSchema.parse(formData);
+  const formData = await readValidatedBody(event, (body) => userSchema.parse(body));
   const res = {
-    ...parseRes,
-    password: await new Argon2id().hash(parseRes.password),
+    ...formData,
+    password: await new Argon2id().hash(formData.password),
   };
 
+  const exist = await getUserByUsername(res.username);
   if (res.id) {
-    const exist = await getUserByUsername(res.username);
-    if (exist) {
-      if (exist.id !== res.id) {
-        throw createError({
-          statusCode: 401,
-          statusMessage: 'Username already exist',
-        });
-      }
+    if (exist && exist.id !== res.id) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Username already exist',
+      });
     }
     await updateUser(res.id, res);
   } else {
-    const exist = await getUserByUsername(res.username);
     if (exist) {
       throw createError({
-        statusCode: 401,
+        statusCode: 400,
         statusMessage: 'Username already exist',
       });
     }

@@ -1,9 +1,5 @@
 export default defineEventHandler(async (event) => {
-  if (event.context.user?.role !== 1) {
-    throw createError({
-      statusCode: 403,
-    });
-  }
+  privateFunction(event);
 
   const res = await getAllTicketSeat();
   const data = res.map((item) => {

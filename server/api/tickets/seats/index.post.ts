@@ -10,11 +10,7 @@ const ticketSchema = z.object({
 });
 
 export default defineEventHandler(async (event) => {
-  if (!event.context.session) {
-    throw createError({
-      statusCode: 403,
-    });
-  }
+  publicFunction(event);
 
   const formData = await readBody(event);
 

@@ -3,24 +3,12 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  modules: ['@nuxt/ui', '@nuxt/image', 'nuxt-security', '@nuxt/fonts'],
+  modules: ['@nuxt/ui', 'nuxt-security', '@nuxt/fonts'],
   devtools: { enabled: true },
 
   runtimeConfig: {
     databaseUrl: process.env.DATABASE_URL,
     databaseAuthToken: process.env.DATABASE_AUTH_TOKEN,
-  },
-
-  nitro: {
-    experimental: {
-      openAPI: true,
-    },
-  },
-
-  icon: {
-    serverBundle: {
-      collections: ['heroicons'],
-    },
   },
 
   security: {

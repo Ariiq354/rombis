@@ -2,17 +2,17 @@ export default defineAppConfig({
   ui: {
     button: {
       default: {
-        size: 'md',
+        size: "md",
       },
     },
     select: {
       default: {
-        size: 'md',
+        size: "md",
       },
     },
     input: {
       default: {
-        size: 'md',
+        size: "md",
       },
     },
   },

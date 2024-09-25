@@ -1,12 +1,13 @@
 <script setup lang="ts">
-  import type { FormSubmitEvent } from '#ui/types';
-  import { columns, schema, typeOptions, type Schema } from './constant';
+  import type { FormSubmitEvent } from "#ui/types";
+  import { columns, schema, typeOptions, type Schema } from "./constant";
+  import { jsonToCsv } from "#imports";
 
   // Fetch data
-  const { data, status, refresh } = await useLazyFetch('/api/bus');
+  const { data, status, refresh } = await useLazyFetch("/api/bus");
 
   // Table
-  const table = useTemplateRef('tableRef');
+  const table = useTemplateRef("tableRef");
   const testtime = ref();
 
   const initialFormData = {
@@ -14,7 +15,7 @@
     name: undefined,
     description: undefined,
     seat: 0,
-    route: ['', ''],
+    route: ["", ""],
     type: undefined,
   };
   const state = reactive({ ...initialFormData });
@@ -31,8 +32,8 @@
     try {
       modalLoading.value = true;
 
-      await $fetch('/api/bus', {
-        method: 'POST',
+      await $fetch("/api/bus", {
+        method: "POST",
         body: event.data,
       });
 
@@ -47,15 +48,15 @@
 
   function clickAdd() {
     Object.assign(state, initialFormData);
-    state.route = ['', ''];
+    state.route = ["", ""];
     modalOpen.value = true;
   }
 
   async function clickDelete() {
     async function onDelete() {
       const idArray = table.value?.selected.map((item: any) => item.id);
-      await $fetch('/api/user', {
-        method: 'DELETE',
+      await $fetch("/api/user", {
+        method: "DELETE",
         body: {
           id: idArray,
         },
@@ -81,8 +82,10 @@
     <UModal v-model="modalOpen" :ui="{ width: 'sm:max-w-4xl' }" prevent-close>
       <div class="p-4">
         <div class="mb-4 flex items-center justify-between">
-          <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-            {{ state.id ? 'Edit' : 'Add' }} Bus
+          <h3
+            class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
+          >
+            {{ state.id ? "Edit" : "Add" }} Bus
           </h3>
           <UButton
             color="gray"
@@ -93,7 +96,12 @@
             :disabled="status === 'pending'"
           />
         </div>
-        <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+        <UForm
+          :schema="schema"
+          :state="state"
+          class="space-y-4"
+          @submit="onSubmit"
+        >
           <div class="flex w-full gap-4">
             <UFormGroup label="Nama Bus" name="name" class="w-full">
               <UInput v-model="state.name" :disabled="modalLoading" />
@@ -117,7 +125,10 @@
                   :name="`route.${index + 1}`"
                   :key="index"
                 >
-                  <UInput v-model="state.route[index + 1]" :disabled="modalLoading">
+                  <UInput
+                    v-model="state.route[index + 1]"
+                    :disabled="modalLoading"
+                  >
                     <template #trailing>
                       <UIcon
                         name="i-heroicons-x-mark-16-solid"
@@ -131,26 +142,42 @@
                   icon="i-heroicons-plus"
                   class="flex w-full justify-center"
                   variant="soft"
-                  @click="() => state.route.splice(state.route.length - 1, 0, '')"
+                  @click="
+                    () => state.route.splice(state.route.length - 1, 0, '')
+                  "
                 />
               </div>
               <UIcon name="i-heroicons-ellipsis-vertical" />
 
-              <UFormGroup label="Akhir" :name="`route.${state.route.length - 1}`">
-                <UInput v-model="state.route[state.route.length - 1]" :disabled="modalLoading" />
+              <UFormGroup
+                label="Akhir"
+                :name="`route.${state.route.length - 1}`"
+              >
+                <UInput
+                  v-model="state.route[state.route.length - 1]"
+                  :disabled="modalLoading"
+                />
               </UFormGroup>
             </div>
             <div class="flex w-full flex-col gap-4">
               <div class="flex gap-4">
                 <UFormGroup label="Jumlah kursi" name="seat" class="w-full">
-                  <UInput type="number" v-model="state.seat" :disabled="modalLoading" />
+                  <UInput
+                    type="number"
+                    v-model="state.seat"
+                    :disabled="modalLoading"
+                  />
                 </UFormGroup>
                 <UFormGroup label="Tipe Kursi" name="type" class="w-full">
                   <USelect v-model="state.type" :options="typeOptions" />
                 </UFormGroup>
               </div>
               <div class="flex w-full justify-center">
-                <BusSeatPicker v-if="state.type" :seat="state.seat" :type="state.type" />
+                <BusSeatPicker
+                  v-if="state.type"
+                  :seat="state.seat"
+                  :type="state.type"
+                />
               </div>
             </div>
           </div>
@@ -164,7 +191,11 @@
             >
               Cancel
             </UButton>
-            <UButton type="submit" icon="i-heroicons-check-16-solid" :loading="modalLoading">
+            <UButton
+              type="submit"
+              icon="i-heroicons-check-16-solid"
+              :loading="modalLoading"
+            >
               Save
             </UButton>
           </div>
@@ -174,7 +205,9 @@
     <UCard>
       <div class="mb-6 flex items-center justify-between rounded-lg border p-4">
         <div class="flex gap-2">
-          <UButton icon="i-heroicons-plus" variant="soft" @click="clickAdd">Add</UButton>
+          <UButton icon="i-heroicons-plus" variant="soft" @click="clickAdd">
+            Add
+          </UButton>
           <UButton
             icon="i-heroicons-trash"
             variant="soft"
