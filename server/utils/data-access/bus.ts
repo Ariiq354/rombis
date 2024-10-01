@@ -24,6 +24,9 @@ export async function getBusById(id: string, is_available = false) {
     with: {
       ticket: {
         where: whereQuery,
+        with: {
+          ticketSeat: true
+        }
       },
     },
   });

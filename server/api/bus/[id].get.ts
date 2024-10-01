@@ -23,6 +23,7 @@ export default defineEventHandler(async (event) => {
           price: item.price,
           date: item.date,
           time: item.time,
+          seat: item.ticketSeat.map((seatItem) => seatItem.seat),
         };
       });
 

@@ -129,7 +129,7 @@
             <div class="w-full">
               <div class="flex gap-4">
                 <UFormGroup label="Tempat" class="w-full">
-                  <UInput :value="selectedBus?.route[0]" disabled />
+                  <UInput :model-value="selectedBus?.route[0]" disabled />
                 </UFormGroup>
                 <UFormGroup label="Jam" :name="`time.0`" class="w-full">
                   <UInput
@@ -147,7 +147,7 @@
                   :key="index"
                 >
                   <div class="flex items-center gap-4">
-                    <UInput :value="item" />
+                    <UInput :model-value="item" disabled />
                     <UFormGroup :name="`price.${index}`">
                       <UInput
                         type="number"
@@ -170,7 +170,9 @@
               <div class="flex items-center gap-4">
                 <UFormGroup label="Tempat">
                   <UInput
-                    :value="selectedBus?.route[selectedBus.route.length - 1]"
+                    :model-value="
+                      selectedBus?.route[selectedBus.route.length - 1]
+                    "
                     disabled
                   />
                 </UFormGroup>
@@ -196,10 +198,10 @@
             <div class="flex w-full flex-col gap-4">
               <div class="flex gap-4">
                 <UFormGroup label="Jumlah Kursi" class="w-full">
-                  <UInput :value="selectedBus?.seat" disabled />
+                  <UInput :model-value="selectedBus?.seat" disabled />
                 </UFormGroup>
                 <UFormGroup label="Tipe Kursi" class="w-full">
-                  <UInput :value="selectedBus?.type" disabled />
+                  <UInput :model-value="selectedBus?.type" disabled />
                 </UFormGroup>
               </div>
               <div class="flex w-full justify-center">
