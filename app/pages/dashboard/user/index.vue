@@ -17,7 +17,7 @@
     try {
       modalLoading.value = true;
 
-      await $fetch("/api/user", {
+      await $fetch("/api/users", {
         method: "POST",
         body: event.data,
       });

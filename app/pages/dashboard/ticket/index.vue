@@ -53,7 +53,7 @@
   const deleteArray = ref<string[]>([]);
   async function clickDelete() {
     async function onDelete() {
-      await $fetch("/api/ticket", {
+      await $fetch("/api/tickets", {
         method: "DELETE",
         body: {
           id: deleteArray.value,
