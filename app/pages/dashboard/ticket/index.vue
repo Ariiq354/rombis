@@ -13,6 +13,8 @@
   });
   watch(selectedBus, async () => {
     if (selectedBus.value) {
+      state.price = [0];
+      state.time = ["", ""];
       const zerosCount = selectedBus.value.route.length - 2;
       if (zerosCount > 0 && !state.id) {
         const zeros = new Array(zerosCount).fill(0);
@@ -29,7 +31,7 @@
     try {
       modalLoading.value = true;
 
-      await $fetch("/api/ticket", {
+      await $fetch("/api/tickets", {
         method: "POST",
         body: event.data,
       });

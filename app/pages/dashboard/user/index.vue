@@ -39,7 +39,7 @@
   async function clickDelete() {
     async function onDelete() {
       const idArray = table.value?.selected.map((item: any) => item.id);
-      await $fetch("/api/user", {
+      await $fetch("/api/users", {
         method: "DELETE",
         body: {
           id: idArray,
