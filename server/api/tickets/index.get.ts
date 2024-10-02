@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
 
   const data = dataTicket.map((item) => {
     const busData = {
-      desciption: item.bus.description,
+      description: item.bus.description,
       name: item.bus.name,
       route: item.bus.route,
       seat: item.bus.seat,
