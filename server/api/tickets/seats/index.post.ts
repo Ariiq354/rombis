@@ -1,11 +1,11 @@
-import { generateIdFromEntropySize } from 'lucia';
-import { z } from 'zod';
+import { generateIdFromEntropySize } from "lucia";
+import { z } from "zod";
 
 const ticketSchema = z.object({
   id_ticket: z.string(),
   id_user: z.string(),
   price: z.number(),
-  seat: z.number(),
+  seat: z.number().array(),
   route: z.tuple([z.string(), z.string()]),
 });
 
@@ -20,7 +20,15 @@ export default defineEventHandler(async (event) => {
     ...res,
     id: generateIdFromEntropySize(10),
   };
-  await createTicketSeat(newData);
+
+  newData.seat.forEach(async (item) => {
+    const itemData = {
+      ...newData,
+      seat: item,
+    };
+
+    await createTicketSeat(itemData);
+  });
 
   return;
 });
