@@ -16,15 +16,11 @@ export default defineEventHandler(async (event) => {
 
   const res = ticketSchema.parse(formData);
 
-  const newData = {
-    ...res,
-    id: generateIdFromEntropySize(10),
-  };
-
-  newData.seat.forEach(async (item) => {
+  res.seat.forEach(async (item) => {
     const itemData = {
-      ...newData,
+      ...res,
       seat: item,
+      id: generateIdFromEntropySize(10),
     };
 
     await createTicketSeat(itemData);
