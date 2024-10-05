@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
   publicFunction(event);
 
-  const id_user = getRouterParam(event, 'id_user');
+  const id_user = getRouterParam(event, "id_user");
   if (id_user) {
     const res = await getTicketSeatByUserId(id_user);
     if (res) {
@@ -19,6 +19,7 @@ export default defineEventHandler(async (event) => {
           id: item.id,
           price: item.price,
           seat: item.seat,
+          is_paid: item.is_paid,
           route: item.route,
           ticket: ticketData,
         };

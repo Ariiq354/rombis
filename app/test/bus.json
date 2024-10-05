@@ -1,0 +1,42 @@
+[
+  {
+    "id": "53gw3colaoallysd",
+    "name": "test bus 1",
+    "description": "ini test bus",
+    "type": "2x2",
+    "seat": 32,
+    "route": "[\"jakarta\",\"jogja\",\"malang\",\"surabaya\"]",
+    "created_at": "2024-10-01 14:40:09",
+    "updated_at": "2024-10-01 14:40:09"
+  },
+  {
+    "id": "cv7gj3sa2rcxwgia",
+    "name": "Bunda Berkah",
+    "description": "Keramat",
+    "type": "1x1",
+    "seat": 22,
+    "route": "[\"Cikarang\",\"Karawang\",\"Jogja\"]",
+    "created_at": "2024-10-02 15:49:12",
+    "updated_at": "2024-10-02 15:49:12"
+  },
+  {
+    "id": "tj6usfmq6zhehggr",
+    "name": "truck angkut",
+    "description": "trucj",
+    "type": "2x3",
+    "seat": 32,
+    "route": "[\"bogor\",\"sukabumi\"]",
+    "created_at": "2024-10-01 14:54:53",
+    "updated_at": "2024-10-01 14:54:53"
+  },
+  {
+    "id": "zckbz7yuucfj7cui",
+    "name": "Bad Mobile",
+    "description": "Kematian",
+    "type": "2x2",
+    "seat": 42,
+    "route": "[\"Bandung\",\"Cikarang\",\"Cirebon\",\"Pati\",\"Semarang\"]",
+    "created_at": "2024-10-02 15:48:31",
+    "updated_at": "2024-10-02 15:48:31"
+  }
+]

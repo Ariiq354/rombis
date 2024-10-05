@@ -1,5 +1,5 @@
-import { Lucia } from 'lucia';
-import { adapter } from '../database';
+import { Lucia } from "lucia";
+import { adapter } from "../database";
 
 export const lucia = new Lucia(adapter, {
   sessionCookie: {
@@ -11,12 +11,12 @@ export const lucia = new Lucia(adapter, {
     return {
       username: attributes.username,
       role: attributes.role,
-      is_active: attributes.role,
+      is_active: attributes.is_active,
     };
   },
 });
 
-declare module 'lucia' {
+declare module "lucia" {
   interface Register {
     Lucia: typeof lucia;
     DatabaseUserAttributes: DatabaseUserAttributes;
