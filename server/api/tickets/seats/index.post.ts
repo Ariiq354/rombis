@@ -23,8 +23,7 @@ export default defineEventHandler(async (event) => {
       id: generateIdFromEntropySize(10),
     };
 
-    // await createTicketSeat(itemData);
-    console.log(itemData);
+    await createTicketSeat(itemData);
   });
 
   return;
