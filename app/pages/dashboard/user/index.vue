@@ -89,7 +89,7 @@
             <UInput v-model="state.username" :disabled="modalLoading" />
           </UFormGroup>
 
-          <UFormGroup label="Password" name="password" v-if="!state.id">
+          <UFormGroup label="Password" name="password">
             <UInput
               v-model="state.password"
               type="password"
