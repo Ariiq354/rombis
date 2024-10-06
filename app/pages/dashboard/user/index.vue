@@ -17,12 +17,10 @@
     try {
       modalLoading.value = true;
 
-      // await $fetch("/api/users", {
-      //   method: "POST",
-      //   body: event.data,
-      // });
-
-      console.log(event.data);
+      await $fetch("/api/users", {
+        method: "POST",
+        body: event.data,
+      });
 
       modalLoading.value = false;
       modalOpen.value = false;
