@@ -17,10 +17,12 @@
     try {
       modalLoading.value = true;
 
-      await $fetch("/api/users", {
-        method: "POST",
-        body: event.data,
-      });
+      // await $fetch("/api/users", {
+      //   method: "POST",
+      //   body: event.data,
+      // });
+
+      console.log(event.data);
 
       modalLoading.value = false;
       modalOpen.value = false;
@@ -89,7 +91,7 @@
             <UInput v-model="state.username" :disabled="modalLoading" />
           </UFormGroup>
 
-          <UFormGroup label="Password" name="password">
+          <UFormGroup label="Password" name="password" v-if="!state.id">
             <UInput
               v-model="state.password"
               type="password"

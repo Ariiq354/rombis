@@ -15,20 +15,23 @@ export default defineEventHandler(async (event) => {
   const formData = await readValidatedBody(event, (body) =>
     userSchema.parse(body)
   );
-  const res = {
-    ...formData,
-    password: await new Argon2id().hash(formData.password),
-  };
 
-  const exist = await getUserByUsername(res.username);
-  if (res.id) {
-    if (exist && exist.id !== res.id) {
+  const exist = await getUserByUsername(formData.username);
+  if (formData.id) {
+    if (exist && exist.id !== formData.id) {
       throw createError({
         statusCode: 400,
         statusMessage: "Username already exist",
       });
     }
-    await updateUser(res.id, res);
+
+    const itemData = {
+      id: formData.id,
+      username: formData.username,
+      is_active: formData.is_active,
+    };
+
+    await updateUser(formData.id, itemData);
   } else {
     if (exist) {
       throw createError({
@@ -37,7 +40,7 @@ export default defineEventHandler(async (event) => {
       });
     }
     const newData = {
-      ...res,
+      ...formData,
       id: generateIdFromEntropySize(10),
     };
     await createUser(newData);
