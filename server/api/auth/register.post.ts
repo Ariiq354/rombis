@@ -1,6 +1,6 @@
-import { generateIdFromEntropySize } from 'lucia';
-import { Argon2id } from 'oslo/password';
-import { z } from 'zod';
+import { generateIdFromEntropySize } from "lucia";
+import { Argon2id } from "oslo/password";
+import { z } from "zod";
 
 const userSchema = z.object({
   username: z.string(),
@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
   if (exist) {
     throw createError({
       statusCode: 401,
-      statusMessage: 'Username already exist',
+      statusMessage: "Username sudah ada",
     });
   }
 

@@ -1,11 +1,13 @@
-import { Argon2id } from 'oslo/password';
-import { getUserByUsername } from '../../utils/data-access/user';
-import { z } from 'zod';
+import { Argon2id } from "oslo/password";
+import { z } from "zod";
 
-const loginSchema = z.object({
-  username: z.string(),
-  password: z.string().min(8),
-});
+const loginSchema = z
+  .object({
+    username: z.string(),
+    password: z.string().min(8),
+    rememberMe: z.boolean(),
+  })
+  .strict();
 
 export default eventHandler(async (event) => {
   const formData = await readBody(event);
@@ -19,21 +21,32 @@ export default eventHandler(async (event) => {
 
   if (!existingUser) {
     throw createError({
-      statusMessage: 'Incorrect username or password',
+      statusMessage: "Username atau password salah",
       statusCode: 400,
     });
   }
 
-  const validPassword = await new Argon2id().verify(existingUser.password, password);
+  const validPassword = await new Argon2id().verify(
+    existingUser.password,
+    password
+  );
   if (!validPassword) {
     throw createError({
-      statusMessage: 'Incorrect username or password',
+      statusMessage: "Username atau password salah",
       statusCode: 400,
     });
   }
 
   const session = await lucia.createSession(existingUser.id, {});
-  appendHeader(event, 'Set-Cookie', lucia.createSessionCookie(session.id).serialize());
+  if (res.rememberMe) {
+    await extendSession(session.id, 2629743);
+  }
+  appendHeader(
+    event,
+    "Set-Cookie",
+    lucia.createSessionCookie(session.id).serialize()
+  );
+
   return {
     authSession: session,
   };

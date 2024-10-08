@@ -57,6 +57,7 @@
   async function clickUpdate(itemData: ExtractObjectType<typeof data.value>) {
     modalOpen.value = true;
     Object.assign(state.value, itemData);
+    state.value.password = "" as any;
   }
 </script>
 
@@ -89,7 +90,7 @@
             <UInput v-model="state.username" :disabled="modalLoading" />
           </UFormGroup>
 
-          <UFormGroup label="Password" name="password">
+          <UFormGroup label="Password" name="password" v-if="!state.id">
             <UInput
               v-model="state.password"
               type="password"
@@ -124,9 +125,9 @@
     <UCard>
       <div class="mb-6 flex items-center justify-between rounded-lg border p-4">
         <div class="flex gap-2">
-          <UButton icon="i-heroicons-plus" variant="soft" @click="clickAdd"
-            >Add</UButton
-          >
+          <UButton icon="i-heroicons-plus" variant="soft" @click="clickAdd">
+            Tambah
+          </UButton>
           <UButton
             icon="i-heroicons-trash"
             variant="soft"
@@ -134,7 +135,7 @@
             @click="clickDelete"
             :disabled="table ? table?.selected.length === 0 : true"
           >
-            Delete
+            Hapus
           </UButton>
         </div>
         <UButton
@@ -143,13 +144,13 @@
           @click="jsonToCsv(data!)"
           :disabled="!(data && data.length > 0)"
         >
-          Export
+          Ekspor
         </UButton>
       </div>
       <AppTable
         :columns="columns"
         :data="data"
-        label="Manage User"
+        label="Kelola User"
         ref="tableRef"
         :loading="status === 'pending'"
         @editClick="(e) => clickUpdate(e)"
@@ -157,7 +158,7 @@
         <template #is_active-data="{ row }">
           <UBadge
             size="xs"
-            :label="row.is_active ? 'Active' : 'Inactive'"
+            :label="row.is_active ? 'Actif' : 'Tidak Aktif'"
             :color="row.is_active ? 'emerald' : 'orange'"
             variant="solid"
             class="rounded-full"

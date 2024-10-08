@@ -1,7 +1,10 @@
-import { count, desc, eq, gt, inArray } from 'drizzle-orm';
-import { getCurrentDate } from '~/utils';
-import { db } from '~~/server/database';
-import { type NewTicket, ticketTable } from '~~/server/database/schema/ticketing';
+import { desc, eq, gt, inArray } from "drizzle-orm";
+import { getCurrentDate } from "~/utils";
+import { db } from "~~/server/database";
+import {
+  type NewTicket,
+  ticketTable,
+} from "~~/server/database/schema/ticketing";
 
 export async function getAllTicket(is_available = false) {
   let whereQuery;

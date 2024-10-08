@@ -1,14 +1,14 @@
 export default defineNuxtRouteMiddleware(async (to) => {
   const user = useUser();
-  const data: any = await useRequestFetch()('/api/auth/getUser');
+  const data: any = await useRequestFetch()("/api/auth/session");
   if (data) {
     user.value = data;
   }
   const currentRoute = to.fullPath;
-  if (!data && currentRoute.includes('/dashboard')) {
+  if (!data && currentRoute.includes("/dashboard")) {
     throw createError({
       statusCode: 401,
-      statusMessage: 'Unauthenticated',
+      statusMessage: "Unauthenticated",
     });
   }
 });

@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
     if (exist && exist.id !== formData.id) {
       throw createError({
         statusCode: 400,
-        statusMessage: "Username already exist",
+        statusMessage: "Username sudah ada",
       });
     }
 
@@ -36,12 +36,13 @@ export default defineEventHandler(async (event) => {
     if (exist) {
       throw createError({
         statusCode: 400,
-        statusMessage: "Username already exist",
+        statusMessage: "Username sudah ada",
       });
     }
     const newData = {
       ...formData,
       id: generateIdFromEntropySize(10),
+      password: await new Argon2id().hash(formData.password),
     };
     await createUser(newData);
   }

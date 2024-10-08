@@ -2,8 +2,8 @@
   type Columns = {
     key: string;
     sortable?: boolean;
-    sort?: (a: any, b: any, direction: 'asc' | 'desc') => number;
-    direction?: 'asc' | 'desc';
+    sort?: (a: any, b: any, direction: "asc" | "desc") => number;
+    direction?: "asc" | "desc";
     class?: string;
     rowClass?: string;
   };
@@ -18,21 +18,21 @@
   const data = toRef(() => props.data);
 
   function removeRowNumber(obj: any) {
-    delete obj['rowNumber'];
+    delete obj["rowNumber"];
     return obj;
   }
 
   const columnsWithRowNumbers = computed(() => {
     return [
       {
-        key: 'rowNumber',
-        label: 'No.',
+        key: "rowNumber",
+        label: "No.",
         sortable: true,
       },
       ...props.columns,
       {
-        key: 'actions',
-        label: 'Actions',
+        key: "actions",
+        label: "Aksi",
       },
     ];
   });
@@ -48,7 +48,7 @@
     return [];
   });
 
-  const searchQuery = ref('');
+  const searchQuery = ref("");
   const filteredRows = computed(() => {
     if (!searchQuery.value) {
       return dataWithRowNumber.value;
@@ -56,7 +56,9 @@
 
     return dataWithRowNumber.value?.filter((item: any) => {
       return Object.values(item).some((value) => {
-        return String(value).toLowerCase().includes(searchQuery.value.toLowerCase());
+        return String(value)
+          .toLowerCase()
+          .includes(searchQuery.value.toLowerCase());
       });
     });
   });
@@ -64,7 +66,10 @@
   const page = ref(1);
   const pageCount = 10;
   const pagedRows = computed(() => {
-    return filteredRows.value?.slice((page.value - 1) * pageCount, page.value * pageCount);
+    return filteredRows.value?.slice(
+      (page.value - 1) * pageCount,
+      page.value * pageCount
+    );
   });
 
   const selected = ref<any[]>([]);
@@ -72,7 +77,9 @@
     selected,
   });
   function select(row: any) {
-    const index = selected.value.findIndex((item) => item.rowNumber === row.rowNumber);
+    const index = selected.value.findIndex(
+      (item) => item.rowNumber === row.rowNumber
+    );
     if (index === -1) {
       selected.value.push(row);
     } else {
@@ -87,7 +94,11 @@
       class="flex w-full items-center justify-between border-b border-gray-200 pb-4 dark:border-gray-700"
     >
       <h1 class="text-sm">{{ label }}</h1>
-      <UInput icon="i-heroicons-magnifying-glass" v-model="searchQuery" placeholder="Search..." />
+      <UInput
+        icon="i-heroicons-magnifying-glass"
+        v-model="searchQuery"
+        placeholder="Cari..."
+      />
     </div>
     <UTable
       :rows="pagedRows"
@@ -112,7 +123,9 @@
         />
       </template>
     </UTable>
-    <div class="flex justify-end border-t border-gray-200 pt-4 dark:border-gray-700">
+    <div
+      class="flex justify-end border-t border-gray-200 pt-4 dark:border-gray-700"
+    >
       <UPagination
         v-model="page"
         :page-count="pageCount"

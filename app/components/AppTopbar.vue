@@ -4,11 +4,13 @@
     toggleSidebar: () => void;
   }>();
 
+  const user = useUser();
+
   const items = [
     [
       {
-        label: 'Logout',
-        icon: 'i-heroicons-arrow-left-on-rectangle',
+        label: "Keluar",
+        icon: "i-heroicons-arrow-left-on-rectangle",
         click: () => {
           props.logout();
         },
@@ -19,10 +21,10 @@
   const colorMode = useColorMode();
 
   function toggleColorMode() {
-    if (colorMode.value === 'dark') {
-      colorMode.preference = 'light';
+    if (colorMode.value === "dark") {
+      colorMode.preference = "light";
     } else {
-      colorMode.preference = 'dark';
+      colorMode.preference = "dark";
     }
   }
 </script>
@@ -37,7 +39,9 @@
       >
         <UIcon name="i-heroicons-bars-3" class="h-5 w-5" />
       </UButton>
-      <h1 class="font-semibold tracking-wide text-slate-600 dark:text-slate-400">
+      <h1
+        class="font-semibold tracking-wide text-slate-600 dark:text-slate-400"
+      >
         Rombis Lajon Dashboard
       </h1>
     </div>
@@ -47,11 +51,14 @@
         class="rounded-full p-2 text-black dark:text-white"
         variant="ghost"
       >
-        <UIcon v-if="colorMode.value === 'dark'" name="i-heroicons-moon-solid" />
+        <UIcon
+          v-if="colorMode.value === 'dark'"
+          name="i-heroicons-moon-solid"
+        />
         <UIcon v-else name="i-heroicons-sun-solid" />
       </UButton>
       <UDropdown :items="items">
-        <UAvatar alt="Avatar" />
+        <UAvatar :alt="user ? user.username : 'Avatar'" />
       </UDropdown>
     </div>
   </div>

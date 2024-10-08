@@ -13,7 +13,6 @@ export default defineNuxtConfig({
 
   routeRules: {
     "/dashboard": { redirect: "/dashboard/user" },
-    "/dashboard/laporan": { redirect: "/dashboard/user" },
   },
 
   security: {

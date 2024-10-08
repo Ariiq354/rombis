@@ -6,21 +6,6 @@
   const route = useRoute();
 
   const sidebarItems = [
-    // {
-    //   title: 'Dashboards',
-    //   items: [
-    //     {
-    //       title: 'Dashboard',
-    //       link: '/dashboard',
-    //       icon: 'i-heroicons-home',
-    //     },
-    //     {
-    //       title: 'Laporan',
-    //       link: '/dashboard/laporan',
-    //       icon: 'i-heroicons-presentation-chart-bar',
-    //     },
-    //   ],
-    // },
     {
       title: "User",
       items: [
@@ -72,7 +57,7 @@
       </h1>
       <div v-for="(childrenItem, index) in item.items" :key="index">
         <NuxtLink
-          class="flex w-full items-center gap-2 px-7 py-3 text-base transition-all duration-200 hover:bg-slate-100"
+          class="flex w-full items-center gap-2 px-7 py-3 text-base transition-all duration-200 hover:bg-slate-100 dark:hover:bg-gray-800/50"
           :to="childrenItem.link"
         >
           <UIcon :name="childrenItem.icon" class="h-4 w-4" />

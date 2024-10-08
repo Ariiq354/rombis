@@ -3,7 +3,7 @@ import { z } from "zod";
 export const columns = [
   {
     key: "username",
-    label: "User name",
+    label: "Username",
     sortable: true,
   },
   {
@@ -13,16 +13,30 @@ export const columns = [
   },
 ];
 
-export const schema = z.object({
-  username: z.string(),
-  password: z.string().min(8, "Must be at least 8 characters"),
-  is_active: z.boolean(),
-});
+export const schema = z
+  .object({
+    id: z.string(),
+    username: z.string(),
+    password: z.string(),
+    is_active: z.boolean(),
+  })
+  .refine(
+    (data) => {
+      if (!data.id && data.password.length < 8) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Karakter harus 8 atau lebih",
+      path: ["password"],
+    }
+  );
 
 export type Schema = z.output<typeof schema>;
 
 export const initialFormData = {
-  id: undefined,
+  id: "",
   username: undefined,
   password: undefined,
   is_active: false,

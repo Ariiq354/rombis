@@ -1,4 +1,4 @@
-import { Lucia } from "lucia";
+import { Lucia, TimeSpan } from "lucia";
 import { adapter } from "../database";
 
 export const lucia = new Lucia(adapter, {
@@ -7,6 +7,7 @@ export const lucia = new Lucia(adapter, {
       secure: !import.meta.dev,
     },
   },
+  sessionExpiresIn: new TimeSpan(1, "d"),
   getUserAttributes: (attributes) => {
     return {
       username: attributes.username,
@@ -26,5 +27,5 @@ declare module "lucia" {
 interface DatabaseUserAttributes {
   username: string;
   role: number;
-  is_active: number;
+  is_active: boolean;
 }

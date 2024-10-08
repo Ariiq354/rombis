@@ -1,12 +1,16 @@
-import { verifyRequestOrigin } from 'lucia';
+import { verifyRequestOrigin } from "lucia";
 
-import type { User, Session } from 'lucia';
+import type { User, Session } from "lucia";
 
 export default defineEventHandler(async (event) => {
-  if (event.node.req.method !== 'GET') {
-    const originHeader = getHeader(event, 'Origin') ?? null;
-    const hostHeader = getHeader(event, 'Host') ?? null;
-    if (!originHeader || !hostHeader || !verifyRequestOrigin(originHeader, [hostHeader])) {
+  if (event.node.req.method !== "GET") {
+    const originHeader = getHeader(event, "Origin") ?? null;
+    const hostHeader = getHeader(event, "Host") ?? null;
+    if (
+      !originHeader ||
+      !hostHeader ||
+      !verifyRequestOrigin(originHeader, [hostHeader])
+    ) {
       return event.node.res.writeHead(403).end();
     }
   }
@@ -17,19 +21,27 @@ export default defineEventHandler(async (event) => {
     event.context.user = null;
     return;
   }
-
+  await lucia.deleteExpiredSessions();
   const { session, user } = await lucia.validateSession(sessionId);
   if (session && session.fresh) {
-    appendHeader(event, 'Set-Cookie', lucia.createSessionCookie(session.id).serialize());
+    appendHeader(
+      event,
+      "Set-Cookie",
+      lucia.createSessionCookie(session.id).serialize()
+    );
   }
   if (!session) {
-    appendHeader(event, 'Set-Cookie', lucia.createBlankSessionCookie().serialize());
+    appendHeader(
+      event,
+      "Set-Cookie",
+      lucia.createBlankSessionCookie().serialize()
+    );
   }
   event.context.session = session;
   event.context.user = user;
 });
 
-declare module 'h3' {
+declare module "h3" {
   interface H3EventContext {
     user: User | null;
     session: Session | null;
