@@ -9,15 +9,15 @@
 
   async function logout() {
     try {
-      await $fetch('/api/auth/logout', {
-        method: 'POST',
+      await $fetch("/api/auth/logout", {
+        method: "POST",
       });
       user.value = null;
-      await navigateTo('/');
-    } catch (error) {
+      await navigateTo("/");
+    } catch {
       throw createError({
         statusCode: 500,
-        statusMessage: 'Internal server error',
+        statusMessage: "Internal server error",
       });
     }
   }
@@ -25,9 +25,9 @@
 
 <template>
   <section class="flex">
-    <AppSidebar :sidebarOpenState="sidebarOpenState" />
+    <AppSidebar :sidebar-open-state="sidebarOpenState" />
     <div class="flex w-full flex-1 flex-col bg-slate-200 p-4 dark:bg-black">
-      <AppTopbar :logout="logout" :toggleSidebar="toggleSidebar" />
+      <AppTopbar :logout="logout" :toggle-sidebar="toggleSidebar" />
       <div class="p-4">
         <slot />
       </div>

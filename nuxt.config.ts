@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  modules: ["@nuxt/ui", "nuxt-security", "@nuxt/fonts"],
+  modules: ["@nuxt/ui", "nuxt-security", "@nuxt/fonts", "@nuxt/eslint"],
   devtools: { enabled: true },
 
   runtimeConfig: {

@@ -32,7 +32,7 @@
   }
 
   async function clickUpdate(id: string) {
-    const ticketItem = data.value?.find((item) => item.id_ticket === id)!;
+    const ticketItem = data.value!.find((item) => item.id_ticket === id)!;
     state.value.id_ticket = ticketItem.id_ticket;
     state.value.current = ticketItem.current;
     state.value.seatPosition = ticketItem.filledSeat;
@@ -88,7 +88,6 @@
 <template>
   <main>
     <UModal v-model="modalOpen" :ui="{ width: 'sm:max-w-4xl' }" prevent-close>
-      <button @click="console.log(container)">click</button>
       <div class="p-4">
         <div class="mb-4 flex items-center justify-between">
           <h3
@@ -101,8 +100,8 @@
             variant="ghost"
             icon="i-heroicons-x-mark-20-solid"
             class="-my-1 rounded-full"
-            @click="modalOpen = false"
             :disabled="status === 'pending'"
+            @click="modalOpen = false"
           />
         </div>
         <UForm
@@ -163,10 +162,10 @@
 
           <div class="flex w-full justify-end gap-2">
             <UButton
-              @click="modalOpen = false"
               icon="i-heroicons-x-mark-16-solid"
               variant="ghost"
               :disabled="modalLoading"
+              @click="modalOpen = false"
             >
               Cancel
             </UButton>
@@ -183,11 +182,11 @@
     </UModal>
     <UCard>
       <h1 class="mb-4 text-lg font-bold">Detail Perjalanan</h1>
-      <div class="grid grid-cols-4 gap-2" v-if="data && data.length > 0">
+      <div v-if="data && data.length > 0" class="grid grid-cols-4 gap-2">
         <div
-          class="flex cursor-pointer flex-col gap-4 rounded-lg border p-4"
           v-for="(item, index) in data"
           :key="index"
+          class="flex cursor-pointer flex-col gap-4 rounded-lg border p-4"
         >
           <div class="flex items-center justify-between">
             <h1 class="font-bold">{{ item.bus.name }}</h1>

@@ -44,18 +44,18 @@
       </div>
       <div class="flex w-full justify-end gap-2">
         <UButton
-          @click="modal.close()"
           icon="i-heroicons-x-mark-16-solid"
           variant="ghost"
           :disabled="loading"
+          @click="modal.close()"
         >
           Tidak
         </UButton>
         <UButton
-          @click="onClick"
           icon="i-heroicons-check-16-solid"
           variant="ghost"
           :loading="loading"
+          @click="onClick"
         >
           Iya
         </UButton>

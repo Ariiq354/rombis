@@ -49,8 +49,8 @@
             variant="ghost"
             icon="i-heroicons-x-mark-20-solid"
             class="-my-1 rounded-full"
-            @click="modalOpen = false"
             :disabled="status === 'pending'"
+            @click="modalOpen = false"
           />
         </div>
         <UForm
@@ -65,10 +65,10 @@
 
           <div class="flex w-full justify-end gap-2">
             <UButton
-              @click="modalOpen = false"
               icon="i-heroicons-x-mark-16-solid"
               variant="ghost"
               :disabled="modalLoading"
+              @click="modalOpen = false"
             >
               Cancel
             </UButton>
@@ -88,8 +88,8 @@
         <UButton
           icon="i-heroicons-arrow-up-tray"
           variant="soft"
-          @click="jsonToCsv(data!)"
           :disabled="!(data && data.length > 0)"
+          @click="jsonToCsv(data!)"
         >
           Ekspor
         </UButton>
@@ -99,7 +99,7 @@
         :data="data"
         label="Kelola Pemesanan"
         :loading="status === 'pending'"
-        @editClick="(e) => clickUpdate(e)"
+        @edit-click="(e) => clickUpdate(e)"
       >
         <template #is_paid-data="{ row }">
           <UBadge

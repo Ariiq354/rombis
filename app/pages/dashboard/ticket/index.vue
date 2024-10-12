@@ -9,7 +9,7 @@
 
   const state = ref({ ...initialFormData });
   const selectedBus = computed(() => {
-    return busData.value?.find((item) => item.id === state.value.id_bus);
+    return busData.value!.find((item) => item.id === state.value.id_bus);
   });
   watch(selectedBus, async () => {
     if (selectedBus.value && !state.value.id) {
@@ -70,7 +70,7 @@
   }
 
   async function clickUpdate(id: string) {
-    const ticketItem = data.value?.find((item) => item.id === id)!;
+    const ticketItem = data.value!.find((item) => item.id === id)!;
     state.value.date = ticketItem.date;
     state.value.price = ticketItem.price;
     state.value.time = [...ticketItem.time];
@@ -96,8 +96,8 @@
             variant="ghost"
             icon="i-heroicons-x-mark-20-solid"
             class="-my-1 rounded-full"
-            @click="modalOpen = false"
             :disabled="status === 'pending'"
+            @click="modalOpen = false"
           />
         </div>
         <UForm
@@ -119,8 +119,8 @@
 
             <UFormGroup label="Tanggal tiket" name="date" class="w-full">
               <UInput
-                type="date"
                 v-model="state.date"
+                type="date"
                 :disabled="modalLoading"
               />
             </UFormGroup>
@@ -134,8 +134,8 @@
                 </UFormGroup>
                 <UFormGroup label="Jam" :name="`time.0`" class="w-full">
                   <UInput
-                    type="datetime-local"
                     v-model="state.time[0]"
+                    type="datetime-local"
                     :disabled="modalLoading"
                   />
                 </UFormGroup>
@@ -151,15 +151,15 @@
                     <UInput :model-value="item" disabled />
                     <UFormGroup :name="`price.${index}`">
                       <UInput
-                        type="number"
                         v-model="state.price[index]"
+                        type="number"
                         :disabled="modalLoading"
                       />
                     </UFormGroup>
                     <UFormGroup :name="`time.${index + 1}`">
                       <UInput
-                        type="datetime-local"
                         v-model="state.time[index + 1]"
+                        type="datetime-local"
                         :disabled="modalLoading"
                       />
                     </UFormGroup>
@@ -182,15 +182,15 @@
                   :name="`price.${state.price.length - 1}`"
                 >
                   <UInput
-                    type="number"
                     v-model="state.price[state.price.length - 1]"
+                    type="number"
                     :disabled="modalLoading"
                   />
                 </UFormGroup>
                 <UFormGroup label="Jam" :name="`time.${state.time.length - 1}`">
                   <UInput
-                    type="datetime-local"
                     v-model="state.time[state.time.length - 1]"
+                    type="datetime-local"
                     :disabled="modalLoading"
                   />
                 </UFormGroup>
@@ -217,10 +217,10 @@
 
           <div class="flex w-full justify-end gap-2">
             <UButton
-              @click="modalOpen = false"
               icon="i-heroicons-x-mark-16-solid"
               variant="ghost"
               :disabled="modalLoading"
+              @click="modalOpen = false"
             >
               Cancel
             </UButton>
@@ -245,8 +245,8 @@
             icon="i-heroicons-trash"
             variant="soft"
             class="disabled:opacity-50"
-            @click="clickDelete"
             :disabled="deleteArray.length === 0"
+            @click="clickDelete"
           >
             Delete
           </UButton>
@@ -254,17 +254,17 @@
         <UButton
           icon="i-heroicons-arrow-up-tray"
           variant="soft"
-          @click="jsonToCsv(data!)"
           :disabled="!(data && data.length > 0)"
+          @click="jsonToCsv(data!)"
         >
           Export
         </UButton>
       </div>
-      <div class="grid grid-cols-4 gap-2" v-if="data && data.length > 0">
+      <div v-if="data && data.length > 0" class="grid grid-cols-4 gap-2">
         <div
-          class="flex cursor-pointer flex-col gap-4 rounded-lg border p-4"
           v-for="(item, index) in data"
           :key="index"
+          class="flex cursor-pointer flex-col gap-4 rounded-lg border p-4"
           :class="{
             'shadow-lg': deleteArray.includes(item.id),
           }"

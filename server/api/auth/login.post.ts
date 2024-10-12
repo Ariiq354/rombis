@@ -5,7 +5,7 @@ const loginSchema = z
   .object({
     username: z.string(),
     password: z.string().min(8),
-    rememberMe: z.boolean(),
+    rememberMe: z.boolean().optional(),
   })
   .strict();
 

@@ -33,9 +33,9 @@
   <div id="topbar" class="flex justify-between">
     <div class="flex items-center gap-4">
       <UButton
-        @click="toggleSidebar"
         class="rounded-full p-2 transition-all duration-200 hover:bg-green-500 hover:text-white"
         variant="ghost"
+        @click="toggleSidebar"
       >
         <UIcon name="i-heroicons-bars-3" class="h-5 w-5" />
       </UButton>
@@ -47,9 +47,9 @@
     </div>
     <div class="flex items-center gap-4">
       <UButton
-        @click="toggleColorMode"
         class="rounded-full p-2 text-black dark:text-white"
         variant="ghost"
+        @click="toggleColorMode"
       >
         <UIcon
           v-if="colorMode.value === 'dark'"

@@ -56,11 +56,11 @@
       <UIcon name="i-heroicons-globe-alt" class="h-9 w-9" />
       <span>ROMBIS</span>
     </div>
-    <div v-for="(item, index) in sidebarItems" :key="index">
+    <div v-for="(item, firstIndex) in sidebarItems" :key="firstIndex">
       <h1 class="px-7 py-4 text-xs font-bold uppercase text-green-500">
         {{ item.title }}
       </h1>
-      <div v-for="(childrenItem, index) in item.items" :key="index">
+      <div v-for="(childrenItem, secondIndex) in item.items" :key="secondIndex">
         <NuxtLink
           class="flex w-full items-center gap-2 px-7 py-3 text-base transition-all duration-200 hover:bg-slate-100 dark:hover:bg-gray-800/50"
           :to="childrenItem.link"

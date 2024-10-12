@@ -98,8 +98,8 @@
             variant="ghost"
             icon="i-heroicons-x-mark-20-solid"
             class="-my-1 rounded-full"
-            @click="modalOpen = false"
             :disabled="status === 'pending'"
+            @click="modalOpen = false"
           />
         </div>
         <UForm
@@ -130,8 +130,8 @@
                 <div class="flex flex-col gap-2">
                   <UFormGroup
                     v-for="(_, index) in addedRoute"
-                    :name="`route.${index + 1}`"
                     :key="index"
+                    :name="`route.${index + 1}`"
                   >
                     <UInput
                       v-model="state.route[index + 1]"
@@ -177,8 +177,8 @@
                 <div class="flex flex-col gap-2">
                   <UFormGroup
                     v-for="(_, index) in addedTikum"
-                    :name="`tikum.${index + 1}`"
                     :key="index"
+                    :name="`tikum.${index + 1}`"
                   >
                     <UInput
                       v-model="state.tikum[index + 1]"
@@ -220,8 +220,8 @@
               <div class="flex gap-4">
                 <UFormGroup label="Jumlah kursi" name="seat" class="w-full">
                   <UInput
-                    type="number"
                     v-model="state.seat"
+                    type="number"
                     :disabled="modalLoading"
                   />
                 </UFormGroup>
@@ -241,10 +241,10 @@
 
           <div class="flex w-full justify-end gap-2">
             <UButton
-              @click="modalOpen = false"
               icon="i-heroicons-x-mark-16-solid"
               variant="ghost"
               :disabled="modalLoading"
+              @click="modalOpen = false"
             >
               Batal
             </UButton>
@@ -269,8 +269,8 @@
             icon="i-heroicons-trash"
             variant="soft"
             class="disabled:opacity-50"
-            @click="clickDelete"
             :disabled="table ? table?.selected.length === 0 : true"
+            @click="clickDelete"
           >
             Hapus
           </UButton>
@@ -278,19 +278,19 @@
         <UButton
           icon="i-heroicons-arrow-up-tray"
           variant="soft"
-          @click="jsonToCsv(data!)"
           :disabled="!(data && data.length > 0)"
+          @click="jsonToCsv(data!)"
         >
           Ekspor
         </UButton>
       </div>
       <AppTable
+        ref="tableRef"
         :columns="columns"
         :data="data"
         label="Kelola Bus"
-        ref="tableRef"
         :loading="status === 'pending'"
-        @editClick="(e) => clickUpdate(e)"
+        @edit-click="(e) => clickUpdate(e)"
       >
         <template #route-data="{ row }">
           <div>

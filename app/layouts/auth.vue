@@ -1,15 +1,20 @@
 <template>
   <section class="relative flex h-screen w-full items-center justify-center overflow-hidden">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" class="absolute -z-10 h-full"
+    <svg
+xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" class="absolute -z-10 h-full"
       preserveAspectRatio="none">
       <path fill="#15803D" d="M0 0h1600v800H0z" />
-      <path fill="#16A34A"
+      <path
+fill="#16A34A"
         d="M478.4 581c3.2.8 6.4 1.7 9.5 2.5C684.1 636 876.6 717 1081.4 760.1c174.2 36.6 349.5 29.2 518.6-10.2V0H0v574.9c52.3-17.6 106.5-27.7 161.1-30.9 107.3-6.6 214.6 10.2 317.3 37" />
-      <path fill="#22C55E"
+      <path
+fill="#22C55E"
         d="M181.8 259.4c98.2 6 191.9 35.2 281.3 72.1 2.8 1.1 5.5 2.3 8.3 3.4 171 71.6 342.7 158.5 531.3 207.7 198.8 51.8 403.4 40.8 597.3-14.8V0H0v283.2a483.5 483.5 0 0 1 181.8-23.8" />
-      <path fill="#4ADE80"
+      <path
+fill="#4ADE80"
         d="M454.9 86.3C600.7 177 751.6 269.3 924.1 325c208.6 67.4 431.3 60.8 637.9-5.3 12.8-4.1 25.4-8.4 38.1-12.9V0h-1312c56 21.3 108.7 50.6 159.7 82 2.4 1.4 4.7 2.9 7.1 4.3" />
-      <path fill="#86EFAC"
+      <path
+fill="#86EFAC"
         d="M1397.5 154.8c47.2-10.6 93.6-25.3 138.6-43.8 21.7-8.9 43-18.8 63.9-29.5V0H643.4c62.9 41.7 129.7 78.2 202.1 107.4 174.9 70.7 368.7 88.7 552 47.4" />
     </svg>
     <slot />

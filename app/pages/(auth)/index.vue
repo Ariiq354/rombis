@@ -56,25 +56,25 @@
       </div>
       <UFormGroup label="Username" name="username">
         <UInput
+          v-model="state.username"
           icon="i-heroicons-user"
           :leading="true"
-          v-model="state.username"
           placeholder="Username"
         />
       </UFormGroup>
 
       <UFormGroup label="Password" name="password">
         <UInput
+          v-model="state.password"
           icon="i-heroicons-lock-closed"
           :leading="true"
-          v-model="state.password"
           type="password"
           placeholder="Password"
         />
       </UFormGroup>
 
       <div class="flex w-full justify-between">
-        <UCheckbox label="Ingat Saya" v-model="state.rememberMe" />
+        <UCheckbox v-model="state.rememberMe" label="Ingat Saya" />
       </div>
 
       <UButton

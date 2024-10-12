@@ -11,7 +11,9 @@ export default defineEventHandler(async (event) => {
       !hostHeader ||
       !verifyRequestOrigin(originHeader, [hostHeader])
     ) {
-      return event.node.res.writeHead(403).end();
+      throw createError({
+        statusCode: 403,
+      });
     }
   }
 

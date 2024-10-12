@@ -76,8 +76,8 @@
             variant="ghost"
             icon="i-heroicons-x-mark-20-solid"
             class="-my-1 rounded-full"
-            @click="modalOpen = false"
             :disabled="status === 'pending'"
+            @click="modalOpen = false"
           />
         </div>
         <UForm
@@ -90,7 +90,7 @@
             <UInput v-model="state.username" :disabled="modalLoading" />
           </UFormGroup>
 
-          <UFormGroup label="Password" name="password" v-if="!state.id">
+          <UFormGroup v-if="!state.id" label="Password" name="password">
             <UInput
               v-model="state.password"
               type="password"
@@ -104,10 +104,10 @@
 
           <div class="flex w-full justify-end gap-2">
             <UButton
-              @click="modalOpen = false"
               icon="i-heroicons-x-mark-16-solid"
               variant="ghost"
               :disabled="modalLoading"
+              @click="modalOpen = false"
             >
               Batal
             </UButton>
@@ -132,8 +132,8 @@
             icon="i-heroicons-trash"
             variant="soft"
             class="disabled:opacity-50"
-            @click="clickDelete"
             :disabled="table ? table?.selected.length === 0 : true"
+            @click="clickDelete"
           >
             Hapus
           </UButton>
@@ -141,19 +141,19 @@
         <UButton
           icon="i-heroicons-arrow-up-tray"
           variant="soft"
-          @click="jsonToCsv(data!)"
           :disabled="!(data && data.length > 0)"
+          @click="jsonToCsv(data!)"
         >
           Ekspor
         </UButton>
       </div>
       <AppTable
+        ref="tableRef"
         :columns="columns"
         :data="data"
         label="Kelola User"
-        ref="tableRef"
         :loading="status === 'pending'"
-        @editClick="(e) => clickUpdate(e)"
+        @edit-click="(e) => clickUpdate(e)"
       >
         <template #is_active-data="{ row }">
           <UBadge

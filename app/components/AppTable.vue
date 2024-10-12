@@ -15,6 +15,8 @@
     label: string;
   }>();
 
+  const emit = defineEmits(["editClick"]);
+
   const data = toRef(() => props.data);
 
   function removeRowNumber(obj: any) {
@@ -38,7 +40,7 @@
   });
 
   const dataWithRowNumber = computed(() => {
-    if (data) {
+    if (data.value) {
       return data.value?.map((item, index) => ({
         rownumber: index + 1,
         ...item,
@@ -95,17 +97,17 @@
     >
       <h1 class="text-sm">{{ label }}</h1>
       <UInput
-        icon="i-heroicons-magnifying-glass"
         v-model="searchQuery"
+        icon="i-heroicons-magnifying-glass"
         placeholder="Cari..."
       />
     </div>
     <UTable
+      v-model="selected"
       :rows="pagedRows"
       :columns="columnsWithRowNumbers"
       class="border-gray-200"
       :loading="loading"
-      v-model="selected"
       @select="select"
     >
       <template v-for="(_, name) in $slots" #[name]="slotData">
@@ -119,7 +121,7 @@
           variant="outline"
           :ui="{ rounded: 'rounded-full' }"
           square
-          @click.stop="$emit('editClick', removeRowNumber(row))"
+          @click.stop="emit('editClick', removeRowNumber(row))"
         />
       </template>
     </UTable>
@@ -127,12 +129,12 @@
       class="flex justify-end border-t border-gray-200 pt-4 dark:border-gray-700"
     >
       <UPagination
+        v-if="data && data.length > 0"
         v-model="page"
         :page-count="pageCount"
         :total="data!.length"
         show-last
         show-first
-        v-if="data && data.length > 0"
       />
     </div>
   </div>

@@ -43,7 +43,7 @@
           'bg-green-200': fill?.includes(index + 1),
           'bg-gray-200': !fill?.includes(index + 1),
         }"
-      ></div>
+      />
     </template>
   </div>
 </template>
