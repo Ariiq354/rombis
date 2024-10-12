@@ -2,10 +2,12 @@ import { generateIdFromEntropySize } from "lucia";
 import { Argon2id } from "oslo/password";
 import { z } from "zod";
 
-const userSchema = z.object({
-  username: z.string(),
-  password: z.string().min(8),
-});
+const userSchema = z
+  .object({
+    username: z.string(),
+    password: z.string().min(8),
+  })
+  .strict();
 
 export default defineEventHandler(async (event) => {
   const formData = await readBody(event);
@@ -19,7 +21,7 @@ export default defineEventHandler(async (event) => {
   const exist = await getUserByUsername(res.username);
   if (exist) {
     throw createError({
-      statusCode: 401,
+      statusCode: 400,
       statusMessage: "Username sudah ada",
     });
   }
