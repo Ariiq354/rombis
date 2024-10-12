@@ -3,7 +3,7 @@
     function: (...args: any[]) => Promise<void>;
   }>();
 
-  const emit = defineEmits(['success']);
+  const emit = defineEmits(["success"]);
 
   const modal = useModal();
   const loading = ref(false);
@@ -13,7 +13,7 @@
     try {
       await props.function();
       loading.value = false;
-      emit('success');
+      emit("success");
     } catch (error: any) {
       useToastError(error.statusCode, error.statusMessage);
       loading.value = false;
@@ -25,7 +25,11 @@
   <UModal prevent-close :ui="{ width: 'sm:max-w-sm' }">
     <div class="space-y-4 p-4">
       <div class="flex items-center justify-between">
-        <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">Confirm</h3>
+        <h3
+          class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
+        >
+          Konfirmasi
+        </h3>
         <UButton
           color="gray"
           variant="ghost"
@@ -36,7 +40,7 @@
       </div>
       <div class="flex items-center gap-4">
         <UIcon name="i-heroicons-exclamation-triangle" size="36" />
-        Are you sure you want to delete the selected products?
+        Apakah anda yakin ingin menghapus item ini?
       </div>
       <div class="flex w-full justify-end gap-2">
         <UButton
@@ -45,7 +49,7 @@
           variant="ghost"
           :disabled="loading"
         >
-          No
+          Tidak
         </UButton>
         <UButton
           @click="onClick"
@@ -53,7 +57,7 @@
           variant="ghost"
           :loading="loading"
         >
-          Yes
+          Iya
         </UButton>
       </div>
     </div>

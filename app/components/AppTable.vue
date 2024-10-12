@@ -25,7 +25,7 @@
   const columnsWithRowNumbers = computed(() => {
     return [
       {
-        key: "rowNumber",
+        key: "rownumber",
         label: "No.",
         sortable: true,
       },
@@ -40,7 +40,7 @@
   const dataWithRowNumber = computed(() => {
     if (data) {
       return data.value?.map((item, index) => ({
-        rowNumber: index + 1,
+        rownumber: index + 1,
         ...item,
       }));
     }

@@ -8,6 +8,7 @@ export default defineEventHandler(async (event) => {
       name: item.name,
       description: item.description,
       route: item.route,
+      tikum: item.tikum,
       type: item.type,
       seat: item.seat,
     };

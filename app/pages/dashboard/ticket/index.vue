@@ -7,20 +7,20 @@
   const { data: busData, status: busStatus } = await useLazyFetch("/api/bus");
   const { data, status, refresh } = await useLazyFetch("/api/tickets");
 
-  const state = reactive({ ...initialFormData });
+  const state = ref({ ...initialFormData });
   const selectedBus = computed(() => {
-    return busData.value?.find((item) => item.id === state.id_bus);
+    return busData.value?.find((item) => item.id === state.value.id_bus);
   });
   watch(selectedBus, async () => {
-    if (selectedBus.value) {
-      state.price = [0];
-      state.time = ["", ""];
+    if (selectedBus.value && !state.value.id) {
+      state.value.price = [0];
+      state.value.time = ["", ""];
       const zerosCount = selectedBus.value.route.length - 2;
-      if (zerosCount > 0 && !state.id) {
+      if (zerosCount > 0 && !state.value.id) {
         const zeros = new Array(zerosCount).fill(0);
         const empty = new Array(zerosCount).fill("");
-        state.price.splice(state.price.length - 1, 0, ...zeros);
-        state.time.splice(state.time.length - 1, 0, ...empty);
+        state.value.price.splice(state.value.price.length - 1, 0, ...zeros);
+        state.value.time.splice(state.value.time.length - 1, 0, ...empty);
       }
     }
   });
@@ -47,8 +47,8 @@
 
   function clickAdd() {
     Object.assign(state, initialFormData);
-    state.time = ["", ""];
-    state.price = [0];
+    state.value.time = ["", ""];
+    state.value.price = [0];
     modalOpen.value = true;
   }
 
@@ -71,18 +71,19 @@
 
   async function clickUpdate(id: string) {
     const ticketItem = data.value?.find((item) => item.id === id)!;
-    delete (ticketItem as any).bus;
-    delete (ticketItem as any).filledSeat;
-    Object.assign(state, ticketItem);
+    state.value.date = ticketItem.date;
+    state.value.price = ticketItem.price;
+    state.value.time = [...ticketItem.time];
+    state.value.id = ticketItem.id;
+    state.value.id_bus = ticketItem.id_bus;
     modalOpen.value = true;
-    state.price = [...ticketItem.price];
-    state.time = [...ticketItem.time];
   }
 </script>
 
 <template>
   <main>
     <UModal v-model="modalOpen" :ui="{ width: 'sm:max-w-4xl' }" prevent-close>
+      {{ state }}
       <div class="p-4">
         <div class="mb-4 flex items-center justify-between">
           <h3
@@ -237,9 +238,9 @@
     <UCard>
       <div class="mb-6 flex items-center justify-between rounded-lg border p-4">
         <div class="flex gap-2">
-          <UButton icon="i-heroicons-plus" variant="soft" @click="clickAdd"
-            >Add</UButton
-          >
+          <UButton icon="i-heroicons-plus" variant="soft" @click="clickAdd">
+            Add
+          </UButton>
           <UButton
             icon="i-heroicons-trash"
             variant="soft"
@@ -259,7 +260,7 @@
           Export
         </UButton>
       </div>
-      <div class="grid grid-cols-4" v-if="data && data.length > 0">
+      <div class="grid grid-cols-4 gap-2" v-if="data && data.length > 0">
         <div
           class="flex cursor-pointer flex-col gap-4 rounded-lg border p-4"
           v-for="(item, index) in data"
@@ -277,7 +278,7 @@
           "
         >
           <div class="flex items-center justify-between">
-            <h1 class="font-bold">{{ item.bus.name }}</h1>
+            <!-- <h1 class="font-bold">{{ item.bus.name }}</h1> -->
             <h2>
               {{ item.date }}
             </h2>

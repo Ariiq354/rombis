@@ -19,6 +19,11 @@
           link: "/dashboard/pemesanan",
           icon: "i-heroicons-shopping-cart",
         },
+        {
+          title: "Detail Perjalanan",
+          link: "/dashboard/perjalanan",
+          icon: "i-heroicons-rocket-launch",
+        },
       ],
     },
     {

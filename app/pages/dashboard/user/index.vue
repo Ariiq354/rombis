@@ -109,14 +109,14 @@
               variant="ghost"
               :disabled="modalLoading"
             >
-              Cancel
+              Batal
             </UButton>
             <UButton
               type="submit"
               icon="i-heroicons-check-16-solid"
               :loading="modalLoading"
             >
-              Save
+              Simpan
             </UButton>
           </div>
         </UForm>
@@ -158,7 +158,7 @@
         <template #is_active-data="{ row }">
           <UBadge
             size="xs"
-            :label="row.is_active ? 'Actif' : 'Tidak Aktif'"
+            :label="row.is_active ? 'Aktif' : 'Tidak Aktif'"
             :color="row.is_active ? 'emerald' : 'orange'"
             variant="solid"
             class="rounded-full"

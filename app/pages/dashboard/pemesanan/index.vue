@@ -91,13 +91,13 @@
           @click="jsonToCsv(data!)"
           :disabled="!(data && data.length > 0)"
         >
-          Export
+          Ekspor
         </UButton>
       </div>
       <AppTable
         :columns="columns"
         :data="data"
-        label="Manage Pemesanan"
+        label="Kelola Pemesanan"
         :loading="status === 'pending'"
         @editClick="(e) => clickUpdate(e)"
       >

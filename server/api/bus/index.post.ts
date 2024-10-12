@@ -1,12 +1,18 @@
-import { generateIdFromEntropySize } from 'lucia';
-import { z } from 'zod';
+import { generateIdFromEntropySize } from "lucia";
+import { z } from "zod";
 
 const busSchema = z.object({
   id: z.string().optional(),
   name: z.string(),
   description: z.string(),
   route: z.string().array(),
-  type: z.union([z.literal('2x2'), z.literal('1x1'), z.literal('2x3'), z.literal('1x2')]),
+  tikum: z.string().array(),
+  type: z.union([
+    z.literal("2x2"),
+    z.literal("1x1"),
+    z.literal("2x3"),
+    z.literal("1x2"),
+  ]),
   seat: z.number(),
 });
 

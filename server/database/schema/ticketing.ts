@@ -9,6 +9,7 @@ export const busTable = sqliteTable("bus", {
   type: text("type").$type<"2x2" | "1x1" | "2x3" | "1x2">().notNull(),
   seat: int("seat").notNull(),
   route: text("route", { mode: "json" }).$type<string[]>().notNull(),
+  tikum: text("tikum", { mode: "json" }).$type<string[]>().notNull(),
   createdAt: text("created_at")
     .default(sql`(CURRENT_TIMESTAMP)`)
     .notNull(),
@@ -26,6 +27,7 @@ export const ticketTable = sqliteTable("ticket", {
     .references(() => busTable.id),
   price: text("price", { mode: "json" }).$type<number[]>().notNull(),
   time: text("time", { mode: "json" }).$type<string[]>().notNull(),
+  current: text("current").notNull().default(""),
   createdAt: text("created_at")
     .default(sql`(CURRENT_TIMESTAMP)`)
     .notNull(),
@@ -45,6 +47,7 @@ export const ticketSeatTable = sqliteTable("ticket_seat", {
     .references(() => userTable.id),
   seat: int("seat").notNull(),
   price: int("price").notNull(),
+  name: text("name").notNull(),
   route: text("route", { mode: "json" }).$type<[string, string]>().notNull(),
   is_paid: int("is_paid", { mode: "boolean" }).notNull().default(false),
   createdAt: text("created_at")

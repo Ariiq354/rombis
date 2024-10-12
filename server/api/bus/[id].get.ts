@@ -32,6 +32,7 @@ export default defineEventHandler(async (event) => {
         name: busData.name,
         description: busData.description,
         route: busData.route,
+        tikum: busData.tikum,
         type: busData.type,
         seat: busData.seat,
         ticket: ticketData,

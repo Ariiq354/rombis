@@ -8,7 +8,6 @@
 
   // Table
   const table = useTemplateRef("tableRef");
-  const testtime = ref();
 
   const initialFormData = {
     id: undefined,
@@ -16,12 +15,19 @@
     description: undefined,
     seat: 0,
     route: ["", ""],
+    tikum: ["", ""],
     type: undefined,
   };
   const state = reactive({ ...initialFormData });
   const addedRoute = computed(() => {
     if (state.route.length > 2) {
       return state.route.slice(1, -1);
+    }
+    return [];
+  });
+  const addedTikum = computed(() => {
+    if (state.tikum.length > 2) {
+      return state.tikum.slice(1, -1);
     }
     return [];
   });
@@ -113,52 +119,103 @@
           </div>
 
           <div class="flex gap-4">
-            <div class="w-full">
-              <UFormGroup label="Start" name="route.0">
-                <UInput v-model="state.route[0]" :disabled="modalLoading" />
-              </UFormGroup>
+            <div class="flex w-full flex-col gap-4">
+              <div class="w-full">
+                <h1 class="mb-2 text-sm font-bold">Rute</h1>
+                <UFormGroup label="Start" name="route.0">
+                  <UInput v-model="state.route[0]" :disabled="modalLoading" />
+                </UFormGroup>
 
-              <UIcon name="i-heroicons-ellipsis-vertical" class="mt-3" />
-              <div class="flex flex-col gap-2">
+                <UIcon name="i-heroicons-ellipsis-vertical" class="mt-3" />
+                <div class="flex flex-col gap-2">
+                  <UFormGroup
+                    v-for="(_, index) in addedRoute"
+                    :name="`route.${index + 1}`"
+                    :key="index"
+                  >
+                    <UInput
+                      v-model="state.route[index + 1]"
+                      :disabled="modalLoading"
+                    >
+                      <template #trailing>
+                        <UIcon
+                          name="i-heroicons-x-mark-16-solid"
+                          class="pointer-events-auto cursor-pointer"
+                          @click="state.route.splice(index + 1, 1)"
+                        />
+                      </template>
+                    </UInput>
+                  </UFormGroup>
+                  <UButton
+                    icon="i-heroicons-plus"
+                    class="flex w-full justify-center"
+                    variant="soft"
+                    @click="
+                      () => state.route.splice(state.route.length - 1, 0, '')
+                    "
+                  />
+                </div>
+                <UIcon name="i-heroicons-ellipsis-vertical" />
+
                 <UFormGroup
-                  v-for="(_, index) in addedRoute"
-                  :name="`route.${index + 1}`"
-                  :key="index"
+                  label="Akhir"
+                  :name="`route.${state.route.length - 1}`"
                 >
                   <UInput
-                    v-model="state.route[index + 1]"
+                    v-model="state.route[state.route.length - 1]"
                     :disabled="modalLoading"
-                  >
-                    <template #trailing>
-                      <UIcon
-                        name="i-heroicons-x-mark-16-solid"
-                        class="pointer-events-auto cursor-pointer"
-                        @click="state.route.splice(index + 1, 1)"
-                      />
-                    </template>
-                  </UInput>
+                  />
                 </UFormGroup>
-                <UButton
-                  icon="i-heroicons-plus"
-                  class="flex w-full justify-center"
-                  variant="soft"
-                  @click="
-                    () => state.route.splice(state.route.length - 1, 0, '')
-                  "
-                />
               </div>
-              <UIcon name="i-heroicons-ellipsis-vertical" />
+              <div class="w-full">
+                <h1 class="mb-2 text-sm font-bold">Tikum</h1>
+                <UFormGroup label="Start" name="tikum.0">
+                  <UInput v-model="state.tikum[0]" :disabled="modalLoading" />
+                </UFormGroup>
 
-              <UFormGroup
-                label="Akhir"
-                :name="`route.${state.route.length - 1}`"
-              >
-                <UInput
-                  v-model="state.route[state.route.length - 1]"
-                  :disabled="modalLoading"
-                />
-              </UFormGroup>
+                <UIcon name="i-heroicons-ellipsis-vertical" class="mt-3" />
+                <div class="flex flex-col gap-2">
+                  <UFormGroup
+                    v-for="(_, index) in addedTikum"
+                    :name="`tikum.${index + 1}`"
+                    :key="index"
+                  >
+                    <UInput
+                      v-model="state.tikum[index + 1]"
+                      :disabled="modalLoading"
+                    >
+                      <template #trailing>
+                        <UIcon
+                          name="i-heroicons-x-mark-16-solid"
+                          class="pointer-events-auto cursor-pointer"
+                          @click="state.tikum.splice(index + 1, 1)"
+                        />
+                      </template>
+                    </UInput>
+                  </UFormGroup>
+                  <UButton
+                    icon="i-heroicons-plus"
+                    class="flex w-full justify-center"
+                    variant="soft"
+                    @click="
+                      () => state.tikum.splice(state.tikum.length - 1, 0, '')
+                    "
+                  />
+                </div>
+                <UIcon name="i-heroicons-ellipsis-vertical" />
+
+                <UFormGroup
+                  label="Akhir"
+                  :name="`tikum.${state.tikum.length - 1}`"
+                >
+                  <UInput
+                    v-model="state.tikum[state.tikum.length - 1]"
+                    :disabled="modalLoading"
+                  />
+                </UFormGroup>
+              </div>
             </div>
+
             <div class="flex w-full flex-col gap-4">
               <div class="flex gap-4">
                 <UFormGroup label="Jumlah kursi" name="seat" class="w-full">
@@ -189,14 +246,14 @@
               variant="ghost"
               :disabled="modalLoading"
             >
-              Cancel
+              Batal
             </UButton>
             <UButton
               type="submit"
               icon="i-heroicons-check-16-solid"
               :loading="modalLoading"
             >
-              Save
+              Simpan
             </UButton>
           </div>
         </UForm>
@@ -206,7 +263,7 @@
       <div class="mb-6 flex items-center justify-between rounded-lg border p-4">
         <div class="flex gap-2">
           <UButton icon="i-heroicons-plus" variant="soft" @click="clickAdd">
-            Add
+            Tambah
           </UButton>
           <UButton
             icon="i-heroicons-trash"
@@ -215,7 +272,7 @@
             @click="clickDelete"
             :disabled="table ? table?.selected.length === 0 : true"
           >
-            Delete
+            Hapus
           </UButton>
         </div>
         <UButton
@@ -224,34 +281,21 @@
           @click="jsonToCsv(data!)"
           :disabled="!(data && data.length > 0)"
         >
-          Export
+          Ekspor
         </UButton>
       </div>
       <AppTable
         :columns="columns"
         :data="data"
-        label="Manage Bus"
+        label="Kelola Bus"
         ref="tableRef"
         :loading="status === 'pending'"
         @editClick="(e) => clickUpdate(e)"
       >
         <template #route-data="{ row }">
-          <div class="flex flex-col items-center gap-2">
-            <UBadge
-              size="xs"
-              :label="row.route[0]"
-              color="emerald"
-              variant="solid"
-              class="w-full justify-center rounded-full"
-            />
-            <UIcon name="i-heroicons-ellipsis-vertical" />
-            <UBadge
-              size="xs"
-              :label="row.route[row.route.length - 1]"
-              color="emerald"
-              variant="solid"
-              class="w-full justify-center rounded-full"
-            />
+          <div>
+            {{ row.route[0] }} &nbsp; -> &nbsp;
+            {{ row.route[row.route.length - 1] }}
           </div>
         </template>
       </AppTable>

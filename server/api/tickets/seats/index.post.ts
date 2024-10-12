@@ -5,6 +5,7 @@ const ticketSchema = z.object({
   id_ticket: z.string(),
   id_user: z.string(),
   price: z.number(),
+  name: z.string(),
   seat: z.number().array(),
   route: z.tuple([z.string(), z.string()]),
 });
