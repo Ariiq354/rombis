@@ -9,6 +9,7 @@ export default defineEventHandler(async (event) => {
         const ticketData = {
           date: item.ticket.date,
           time: item.ticket.time,
+          current: item.ticket.current,
           bus: {
             name: item.ticket.bus.name,
             description: item.ticket.bus.description,
