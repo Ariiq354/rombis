@@ -5,7 +5,7 @@ const ticketSchema = z.object({
   id_ticket: z.string(),
   id_user: z.string(),
   price: z.number(),
-  name: z.string(),
+  name: z.string().array(),
   seat: z.number().array(),
   route: z.tuple([z.string(), z.string()]),
 });
@@ -17,10 +17,11 @@ export default defineEventHandler(async (event) => {
 
   const res = ticketSchema.parse(formData);
 
-  res.seat.forEach(async (item) => {
+  res.seat.forEach(async (item, index) => {
     const itemData = {
       ...res,
       seat: item,
+      name: res.name[index],
       id: generateIdFromEntropySize(10),
     };
 
