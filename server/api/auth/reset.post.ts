@@ -8,7 +8,7 @@ const userSchema = z
   .strict();
 
 export default defineEventHandler(async (event) => {
-  const formData = readBody(event);
+  const formData = await readBody(event);
 
   const parseRes = userSchema.parse(formData);
 
