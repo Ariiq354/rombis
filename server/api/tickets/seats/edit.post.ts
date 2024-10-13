@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const ticketSchema = z.object({
   id: z.string(),
-  id_paid: z.boolean(),
+  is_paid: z.boolean(),
 });
 
 export default defineEventHandler(async (event) => {
