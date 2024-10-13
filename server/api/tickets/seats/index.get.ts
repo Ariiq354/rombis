@@ -4,12 +4,13 @@ export default defineEventHandler(async (event) => {
   const res = await getAllTicketSeat();
   const data = res.map((item) => {
     return {
-      id: item.id,
-      price: item.price,
-      seat: item.seat,
-      route: item.route,
-      is_paid: item.is_paid,
-      username: item.user.username,
+      id: item.ticket_seat.id,
+      price: item.ticket_seat.price,
+      seat: item.ticket_seat.seat,
+      route: item.ticket_seat.route,
+      is_paid: item.ticket_seat.is_paid,
+      created_at: item.ticket_seat.createdAt.slice(0, 10),
+      username: item.user?.username,
     };
   });
 

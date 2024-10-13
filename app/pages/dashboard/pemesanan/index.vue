@@ -1,6 +1,12 @@
 <script setup lang="ts">
   import type { FormSubmitEvent } from "#ui/types";
-  import { columns, initialFormData, schema, type Schema } from "./constant";
+  import {
+    columns,
+    initialFormData,
+    schema,
+    selectColumns,
+    type Schema,
+  } from "./constant";
   import { jsonToCsv } from "~/utils";
 
   // Fetch data
@@ -16,7 +22,10 @@
 
       await $fetch("/api/tickets/seats/edit", {
         method: "POST",
-        body: event.data,
+        body: {
+          ...event.data,
+          is_paid: Number(event.data.is_paid),
+        },
       });
 
       modalLoading.value = false;
@@ -30,13 +39,16 @@
 
   async function clickUpdate(itemData: ExtractObjectType<typeof data.value>) {
     modalOpen.value = true;
-    Object.assign(state.value, itemData);
+    state.value.is_paid = itemData.is_paid;
+    state.value.created_at = itemData.created_at;
+    state.value.price = itemData.price;
   }
 </script>
 
 <template>
   <main>
     <UModal v-model="modalOpen" prevent-close>
+      {{ state }}
       <div class="p-4">
         <div class="mb-4 flex items-center justify-between">
           <h3
@@ -60,7 +72,12 @@
           @submit="onSubmit"
         >
           <UFormGroup label="Status" name="is_paid">
-            <UToggle v-model="state.is_paid" :disabled="modalLoading" />
+            <USelect
+              v-model="state.is_paid"
+              :options="selectColumns"
+              option-attribute="name"
+              :disabled="modalLoading"
+            />
           </UFormGroup>
 
           <div class="flex w-full justify-end gap-2">
@@ -104,8 +121,20 @@
         <template #is_paid-data="{ row }">
           <UBadge
             size="xs"
-            :label="row.is_paid ? 'Paid' : 'Unpaid'"
-            :color="row.is_paid ? 'emerald' : 'orange'"
+            :label="
+              row.is_paid === 0
+                ? 'Belum bayar'
+                : row.is_paid === 1
+                  ? 'Belum disetujui'
+                  : 'Diterima'
+            "
+            :color="
+              row.is_paid === 0
+                ? 'red'
+                : row.is_paid === 1
+                  ? 'orange'
+                  : 'emerald'
+            "
             variant="solid"
             class="rounded-full"
           />

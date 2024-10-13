@@ -49,7 +49,7 @@ export const ticketSeatTable = sqliteTable("ticket_seat", {
   price: int("price").notNull(),
   name: text("name").notNull(),
   route: text("route", { mode: "json" }).$type<[string, string]>().notNull(),
-  is_paid: int("is_paid", { mode: "boolean" }).notNull().default(false),
+  is_paid: int("is_paid").notNull().default(0),
   createdAt: text("created_at")
     .default(sql`(CURRENT_TIMESTAMP)`)
     .notNull(),
