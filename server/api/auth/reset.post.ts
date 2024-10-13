@@ -1,3 +1,4 @@
+import { Argon2id } from "oslo/password";
 import { z } from "zod";
 
 const userSchema = z
@@ -13,7 +14,7 @@ export default defineEventHandler(async (event) => {
   const parseRes = userSchema.parse(formData);
 
   await updateUser(parseRes.id, {
-    password: parseRes.password,
+    password: await new Argon2id().hash(parseRes.password),
   });
 
   return;
