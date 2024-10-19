@@ -8,11 +8,11 @@ export const userTable = sqliteTable("user", {
   is_active: int("is_active", { mode: "boolean" }).notNull().default(false),
   role: int("role").notNull().default(0),
   createdAt: text("created_at")
-    .default(sql`(CURRENT_TIMESTAMP)`)
+    .default(sql`(datetime(CURRENT_TIMESTAMP, 'localtime'))`)
     .notNull(),
   updatedAt: text("updated_at")
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`)
+    .default(sql`(datetime(CURRENT_TIMESTAMP, 'localtime'))`)
+    .$onUpdate(() => sql`(datetime(CURRENT_TIMESTAMP, 'localtime'))`)
     .notNull(),
 });
 

@@ -11,11 +11,11 @@ export const busTable = sqliteTable("bus", {
   route: text("route", { mode: "json" }).$type<string[]>().notNull(),
   tikum: text("tikum", { mode: "json" }).$type<string[]>().notNull(),
   createdAt: text("created_at")
-    .default(sql`(CURRENT_TIMESTAMP)`)
+    .default(sql`(datetime(CURRENT_TIMESTAMP, 'localtime'))`)
     .notNull(),
   updatedAt: text("updated_at")
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`)
+    .default(sql`(datetime(CURRENT_TIMESTAMP, 'localtime'))`)
+    .$onUpdate(() => sql`(datetime(CURRENT_TIMESTAMP, 'localtime'))`)
     .notNull(),
 });
 
@@ -29,11 +29,11 @@ export const ticketTable = sqliteTable("ticket", {
   time: text("time", { mode: "json" }).$type<string[]>().notNull(),
   current: text("current").notNull().default(""),
   createdAt: text("created_at")
-    .default(sql`(CURRENT_TIMESTAMP)`)
+    .default(sql`(datetime(CURRENT_TIMESTAMP, 'localtime'))`)
     .notNull(),
   updatedAt: text("updated_at")
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`)
+    .default(sql`(datetime(CURRENT_TIMESTAMP, 'localtime'))`)
+    .$onUpdate(() => sql`(datetime(CURRENT_TIMESTAMP, 'localtime'))`)
     .notNull(),
 });
 
@@ -51,11 +51,11 @@ export const ticketSeatTable = sqliteTable("ticket_seat", {
   route: text("route", { mode: "json" }).$type<[string, string]>().notNull(),
   is_paid: int("is_paid").notNull().default(0),
   createdAt: text("created_at")
-    .default(sql`(CURRENT_TIMESTAMP)`)
+    .default(sql`(datetime(CURRENT_TIMESTAMP, 'localtime'))`)
     .notNull(),
   updatedAt: text("updated_at")
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`)
+    .default(sql`(datetime(CURRENT_TIMESTAMP, 'localtime'))`)
+    .$onUpdate(() => sql`(datetime(CURRENT_TIMESTAMP, 'localtime'))`)
     .notNull(),
 });
 

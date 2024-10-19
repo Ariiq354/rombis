@@ -22,7 +22,7 @@
     "@nuxt/eslint": "^0.6.0",
     "@nuxt/fonts": "^0.10.0",
     "@nuxt/ui": "^2.18.7",
-    "drizzle-orm": "^0.35.0",
+    "drizzle-orm": "^0.35.2",
     "lucia": "^3.2.1",
     "nuxt": "^3.13.2",
     "nuxt-security": "^2.0.0",
