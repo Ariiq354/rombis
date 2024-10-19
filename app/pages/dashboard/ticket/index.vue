@@ -9,7 +9,11 @@
 
   const state = ref({ ...initialFormData });
   const selectedBus = computed(() => {
-    return busData.value!.find((item) => item.id === state.value.id_bus);
+    if (busData.value) {
+      return busData.value.find((item) => item.id === state.value.id_bus);
+    } else {
+      return undefined;
+    }
   });
   watch(selectedBus, async () => {
     if (selectedBus.value && !state.value.id) {
