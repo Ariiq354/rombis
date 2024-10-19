@@ -1,4 +1,4 @@
-import { desc, eq, gt, inArray } from "drizzle-orm";
+import { desc, eq, gte, inArray } from "drizzle-orm";
 import { getCurrentDate } from "~/utils";
 import { db } from "~~/server/database";
 import {
@@ -9,7 +9,7 @@ import {
 export async function getAllTicket(is_available = false) {
   let whereQuery;
   if (is_available) {
-    whereQuery = gt(ticketTable.date, getCurrentDate());
+    whereQuery = gte(ticketTable.date, getCurrentDate());
   }
 
   return await db.query.ticketTable.findMany({
