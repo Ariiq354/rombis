@@ -20,6 +20,7 @@ export default defineEventHandler(async (event) => {
       description: item.bus.description,
       name: item.bus.name,
       route: item.bus.route,
+      tikum: item.bus.tikum,
       seat: item.bus.seat,
       type: item.bus.type,
     };
