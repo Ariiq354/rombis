@@ -12,7 +12,7 @@ export const columns = [
     sortable: true,
   },
   {
-    key: "is_paid",
+    key: "isPaid",
     label: "Status",
     sortable: true,
   },
@@ -34,7 +34,7 @@ export const selectColumns = [
 ];
 
 export const schema = z.object({
-  is_paid: z.coerce.number(),
+  isPaid: z.coerce.number(),
 });
 
 export type Schema = z.output<typeof schema>;
@@ -42,5 +42,5 @@ export type Schema = z.output<typeof schema>;
 export const initialFormData = {
   price: 0,
   created_at: "",
-  is_paid: 0,
+  isPaid: 0,
 };

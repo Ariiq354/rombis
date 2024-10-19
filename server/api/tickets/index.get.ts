@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
 
     return {
       id: item.id,
-      id_bus: item.id_bus,
+      busId: item.busId,
       date: item.date,
       price: item.price,
       current: item.current,

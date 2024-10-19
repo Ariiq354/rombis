@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
           price: item.price,
           seat: item.seat,
           name: item.name,
-          is_paid: item.is_paid,
+          isPaid: item.isPaid,
           route: item.route,
           ticket: ticketData,
           created_at: item.createdAt,

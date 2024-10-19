@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import type { FormSubmitEvent } from "#ui/types";
   import { initialFormData, schema, type Schema } from "./constant";
-  import { jsonToCsv } from "~/utils";
+  import { json2Csv } from "#imports";
 
   // Fetch data
   const { data: busData, status: busStatus } = await useLazyFetch("/api/bus");
@@ -10,7 +10,7 @@
   const state = ref({ ...initialFormData });
   const selectedBus = computed(() => {
     if (busData.value) {
-      return busData.value.find((item) => item.id === state.value.id_bus);
+      return busData.value.find((item) => item.id === state.value.busId);
     } else {
       return undefined;
     }
@@ -43,9 +43,11 @@
       modalLoading.value = false;
       modalOpen.value = false;
       await refresh();
-    } catch (error: any) {
-      useToastError(error.statusCode, error.statusMessage);
-      modalLoading.value = false;
+    } catch (error: unknown) {
+      if (isNuxtError(error)) {
+        useToastError(String(error.statusCode), error.statusMessage);
+        modalLoading.value = false;
+      }
     }
   }
 
@@ -79,7 +81,7 @@
     state.value.price = ticketItem.price;
     state.value.time = [...ticketItem.time];
     state.value.id = ticketItem.id;
-    state.value.id_bus = ticketItem.id_bus;
+    state.value.busId = ticketItem.busId;
     modalOpen.value = true;
   }
 </script>
@@ -110,9 +112,9 @@
           @submit="onSubmit"
         >
           <div class="flex w-full gap-4">
-            <UFormGroup label="Nama Bus" name="id_bus" class="w-full">
+            <UFormGroup label="Nama Bus" name="busId" class="w-full">
               <USelectMenu
-                v-model="state.id_bus"
+                v-model="state.busId"
                 :options="busData"
                 option-attribute="name"
                 value-attribute="id"
@@ -258,7 +260,7 @@
           icon="i-heroicons-arrow-up-tray"
           variant="soft"
           :disabled="!(data && data.length > 0)"
-          @click="jsonToCsv(data!)"
+          @click="json2Csv(data!)"
         >
           Export
         </UButton>

@@ -7,7 +7,7 @@
     selectColumns,
     type Schema,
   } from "./constant";
-  import { jsonToCsv } from "~/utils";
+  import { json2Csv } from "~/utils";
 
   // Fetch data
   const { data, status, refresh } = await useLazyFetch("/api/tickets/seats");
@@ -24,22 +24,24 @@
         method: "POST",
         body: {
           ...event.data,
-          is_paid: Number(event.data.is_paid),
+          isPaid: Number(event.data.isPaid),
         },
       });
 
       modalLoading.value = false;
       modalOpen.value = false;
       await refresh();
-    } catch (error: any) {
-      useToastError(error.statusCode, error.statusMessage);
-      modalLoading.value = false;
+    } catch (error: unknown) {
+      if (isNuxtError(error)) {
+        useToastError(String(error.statusCode), error.statusMessage);
+        modalLoading.value = false;
+      }
     }
   }
 
   async function clickUpdate(itemData: ExtractObjectType<typeof data.value>) {
     modalOpen.value = true;
-    state.value.is_paid = itemData.is_paid;
+    state.value.isPaid = itemData.isPaid;
     state.value.created_at = itemData.created_at;
     state.value.price = itemData.price;
   }
@@ -70,9 +72,9 @@
           class="space-y-4"
           @submit="onSubmit"
         >
-          <UFormGroup label="Status" name="is_paid">
+          <UFormGroup label="Status" name="isPaid">
             <USelect
-              v-model="state.is_paid"
+              v-model="state.isPaid"
               :options="selectColumns"
               option-attribute="name"
               :disabled="modalLoading"
@@ -105,7 +107,7 @@
           icon="i-heroicons-arrow-up-tray"
           variant="soft"
           :disabled="!(data && data.length > 0)"
-          @click="jsonToCsv(data!)"
+          @click="json2Csv(data!)"
         >
           Ekspor
         </UButton>
@@ -117,22 +119,18 @@
         :loading="status === 'pending'"
         @edit-click="(e) => clickUpdate(e)"
       >
-        <template #is_paid-data="{ row }">
+        <template #isPaid-data="{ row }">
           <UBadge
             size="xs"
             :label="
-              row.is_paid === 0
+              row.isPaid === 0
                 ? 'Belum bayar'
-                : row.is_paid === 1
+                : row.isPaid === 1
                   ? 'Belum disetujui'
                   : 'Diterima'
             "
             :color="
-              row.is_paid === 0
-                ? 'red'
-                : row.is_paid === 1
-                  ? 'orange'
-                  : 'emerald'
+              row.isPaid === 0 ? 'red' : row.isPaid === 1 ? 'orange' : 'emerald'
             "
             variant="solid"
             class="rounded-full"

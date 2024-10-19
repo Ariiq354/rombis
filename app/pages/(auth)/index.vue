@@ -1,29 +1,12 @@
 <script setup lang="ts">
   import type { FormSubmitEvent } from "#ui/types";
-  import { z } from "zod";
+  import { type Schema, getInitialState, loginSchema } from "./constants";
 
   definePageMeta({
     layout: "auth",
   });
 
-  const user = useUser();
-
-  if (user.value) {
-    await navigateTo("/dashboard");
-  }
-
-  const loginSchema = z.object({
-    username: z.string(),
-    password: z.string().min(8, "Harus terdiri dari setidaknya 8 karakter."),
-  });
-
-  type Schema = z.output<typeof loginSchema>;
-
-  const state = reactive({
-    username: undefined,
-    password: undefined,
-    rememberMe: false,
-  });
+  const state = ref(getInitialState());
 
   const isLoading = ref(false);
   async function onSubmit(event: FormSubmitEvent<Schema>) {
@@ -35,57 +18,66 @@
       });
       await navigateTo("/dashboard");
       isLoading.value = false;
-    } catch (error: any) {
-      useToastError(error.statusCode, error.statusMessage);
-      isLoading.value = false;
+    } catch (error: unknown) {
+      if (isNuxtError(error)) {
+        useToastError(String(error.statusCode), error.statusMessage);
+        isLoading.value = false;
+      }
     }
   }
 </script>
 
 <template>
-  <UCard class="w-full max-w-md bg-white">
-    <UForm
-      :schema="loginSchema"
-      :state="state"
-      class="w-full space-y-4"
-      @submit="onSubmit"
-    >
-      <div class="flex flex-col">
-        <h1 class="text-xl font-bold">Masuk</h1>
-        <p>Silakan masukkan detail Anda.</p>
+  <div class="flex w-full items-center justify-center">
+    <Title>Login</Title>
+    <UCard class="w-full max-w-md">
+      <div class="space-y-6">
+        <div class="text-center">
+          <div class="pointer-events-none mb-2">
+            <UIcon
+              name="i-heroicons-lock-closed"
+              class="h-8 w-8 flex-shrink-0 text-gray-900 dark:text-white"
+            />
+          </div>
+          <div class="text-2xl font-bold text-gray-900 dark:text-white">
+            Selamat Datang
+          </div>
+        </div>
+        <UForm
+          :schema="loginSchema"
+          :state="state"
+          class="w-full space-y-6"
+          :validate-on="['submit']"
+          @submit="onSubmit"
+        >
+          <UFormGroup label="Username" name="username">
+            <UInput
+              v-model="state.username"
+              :leading="true"
+              placeholder="Masukkan nama pengguna"
+            />
+          </UFormGroup>
+
+          <UFormGroup label="Password" name="password">
+            <UInput
+              v-model="state.password"
+              :leading="true"
+              type="password"
+              placeholder="Masukkan kata sandi"
+            />
+          </UFormGroup>
+
+          <UCheckbox v-model="state.rememberMe" label="Ingat saya" />
+
+          <UButton
+            class="flex w-full justify-center"
+            type="submit"
+            :loading="isLoading"
+          >
+            Lanjut
+          </UButton>
+        </UForm>
       </div>
-      <UFormGroup label="Username" name="username">
-        <UInput
-          v-model="state.username"
-          icon="i-heroicons-user"
-          :leading="true"
-          placeholder="Username"
-        />
-      </UFormGroup>
-
-      <UFormGroup label="Password" name="password">
-        <UInput
-          v-model="state.password"
-          icon="i-heroicons-lock-closed"
-          :leading="true"
-          type="password"
-          placeholder="Password"
-        />
-      </UFormGroup>
-
-      <div class="flex w-full justify-between">
-        <UCheckbox v-model="state.rememberMe" label="Ingat Saya" />
-      </div>
-
-      <UButton
-        class="flex w-full justify-center"
-        type="submit"
-        :loading="isLoading"
-      >
-        Submit
-      </UButton>
-    </UForm>
-  </UCard>
+    </UCard>
+  </div>
 </template>
-
-<style scoped></style>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import type { FormSubmitEvent } from "#ui/types";
   import { columns, schema, typeOptions, type Schema } from "./constant";
-  import { jsonToCsv } from "#imports";
+  import { json2Csv } from "#imports";
 
   // Fetch data
   const { data, status, refresh } = await useLazyFetch("/api/bus");
@@ -46,9 +46,11 @@
       modalLoading.value = false;
       modalOpen.value = false;
       await refresh();
-    } catch (error: any) {
-      useToastError(error.statusCode, error.statusMessage);
-      modalLoading.value = false;
+    } catch (error: unknown) {
+      if (isNuxtError(error)) {
+        useToastError(String(error.statusCode), error.statusMessage);
+        modalLoading.value = false;
+      }
     }
   }
 
@@ -60,7 +62,7 @@
 
   async function clickDelete() {
     async function onDelete() {
-      const idArray = table.value?.selected.map((item: any) => item.id);
+      const idArray = table.value?.selected.map((item) => item.id);
       await $fetch("/api/user", {
         method: "DELETE",
         body: {
@@ -279,7 +281,7 @@
           icon="i-heroicons-arrow-up-tray"
           variant="soft"
           :disabled="!(data && data.length > 0)"
-          @click="jsonToCsv(data!)"
+          @click="json2Csv(data!)"
         >
           Ekspor
         </UButton>

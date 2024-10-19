@@ -14,21 +14,23 @@
       });
       user.value = null;
       await navigateTo("/");
-    } catch {
-      throw createError({
-        statusCode: 500,
-        statusMessage: "Internal server error",
-      });
+    } catch (error: unknown) {
+      if (isNuxtError(error)) {
+        useToastError(String(error.statusCode), error.statusMessage);
+      }
     }
   }
 </script>
 
 <template>
   <section class="flex">
-    <AppSidebar :sidebar-open-state="sidebarOpenState" />
-    <div class="flex w-full flex-1 flex-col bg-slate-200 p-4 dark:bg-black">
+    <AppSidebar :sidebar-toggle="sidebarOpenState" />
+    <div
+      class="flex flex-1 flex-col overflow-auto p-8 transition-all duration-200"
+      :class="{ 'ml-72': sidebarOpenState }"
+    >
       <AppTopbar :logout="logout" :toggle-sidebar="toggleSidebar" />
-      <div class="p-4">
+      <div>
         <slot />
       </div>
     </div>

@@ -1,6 +1,6 @@
-import type { User } from 'lucia';
+import type { UserLucia } from "~~/server/database/schema/auth";
 
 export const useUser = () => {
-  const user = useState<User | null>('user', () => null);
+  const user = useState<UserLucia | null>("user", () => null);
   return user;
 };

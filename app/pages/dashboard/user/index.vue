@@ -1,15 +1,13 @@
 <script setup lang="ts">
   import type { FormSubmitEvent } from "#ui/types";
-  import { columns, initialFormData, schema, type Schema } from "./constant";
-  import { jsonToCsv } from "~/utils";
+  import { columns, getInitialFormData, schema, type Schema } from "./constant";
+  import { json2Csv } from "~/utils";
 
-  // Fetch data
   const { data, status, refresh } = await useLazyFetch("/api/users");
 
-  // Table
   const table = useTemplateRef("tableRef");
 
-  const state = ref({ ...initialFormData });
+  const state = ref(getInitialFormData());
 
   const modalOpen = ref(false);
   const modalLoading = ref(false);
@@ -25,20 +23,22 @@
       modalLoading.value = false;
       modalOpen.value = false;
       await refresh();
-    } catch (error: any) {
-      useToastError(error.statusCode, error.statusMessage);
-      modalLoading.value = false;
+    } catch (error: unknown) {
+      if (isNuxtError(error)) {
+        useToastError(String(error.statusCode), error.statusMessage);
+        modalLoading.value = false;
+      }
     }
   }
 
   function clickAdd() {
-    Object.assign(state.value, initialFormData);
+    state.value = getInitialFormData();
     modalOpen.value = true;
   }
 
   async function clickDelete() {
     async function onDelete() {
-      const idArray = table.value?.selected.map((item: any) => item.id);
+      const idArray = table.value?.selected.map((item) => item.id);
       await $fetch("/api/users", {
         method: "DELETE",
         body: {
@@ -56,15 +56,16 @@
 
   async function clickUpdate(itemData: ExtractObjectType<typeof data.value>) {
     modalOpen.value = true;
-    Object.assign(state.value, itemData);
-    state.value.password = "" as any;
+    state.value.username = itemData.username;
+    state.value.password = "";
+    state.value.isActive = itemData.isActive;
   }
 </script>
 
 <template>
   <main>
     <UModal v-model="modalOpen" prevent-close>
-      <div class="p-4">
+      <div class="px-4 py-5">
         <div class="mb-4 flex items-center justify-between">
           <h3
             class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
@@ -98,8 +99,8 @@
             />
           </UFormGroup>
 
-          <UFormGroup label="Status" name="is_active">
-            <UToggle v-model="state.is_active" :disabled="modalLoading" />
+          <UFormGroup label="Status" name="isActive">
+            <UToggle v-model="state.isActive" :disabled="modalLoading" />
           </UFormGroup>
 
           <div class="flex w-full justify-end gap-2">
@@ -122,16 +123,29 @@
         </UForm>
       </div>
     </UModal>
-    <UCard>
-      <div class="mb-6 flex items-center justify-between rounded-lg border p-4">
+    <UCard
+      :ui="{
+        body: {
+          padding: 'sm:p-8',
+        },
+      }"
+    >
+      <div
+        class="mb-6 flex items-center justify-between rounded-lg border border-gray-200 p-3 dark:border-gray-700"
+      >
         <div class="flex gap-2">
-          <UButton icon="i-heroicons-plus" variant="soft" @click="clickAdd">
+          <UButton
+            icon="i-heroicons-plus"
+            variant="soft"
+            class="gap-2 text-base text-black dark:text-white"
+            @click="clickAdd"
+          >
             Tambah
           </UButton>
           <UButton
             icon="i-heroicons-trash"
             variant="soft"
-            class="disabled:opacity-50"
+            class="gap-2 text-base text-black disabled:opacity-50 dark:text-white"
             :disabled="table ? table?.selected.length === 0 : true"
             @click="clickDelete"
           >
@@ -141,25 +155,28 @@
         <UButton
           icon="i-heroicons-arrow-up-tray"
           variant="soft"
+          size="lg"
+          class="gap-2 text-base text-black dark:text-white"
           :disabled="!(data && data.length > 0)"
-          @click="jsonToCsv(data!)"
+          @click="json2Csv(data!)"
         >
           Ekspor
         </UButton>
       </div>
       <AppTable
         ref="tableRef"
-        :columns="columns"
-        :data="data"
         label="Kelola User"
         :loading="status === 'pending'"
+        :data="data"
+        :columns="columns"
+        :selectable="true"
         @edit-click="(e) => clickUpdate(e)"
       >
-        <template #is_active-data="{ row }">
+        <template #isActive-data="{ row }">
           <UBadge
             size="xs"
-            :label="row.is_active ? 'Aktif' : 'Tidak Aktif'"
-            :color="row.is_active ? 'emerald' : 'orange'"
+            :label="row.isActive ? 'Aktif' : 'Tidak Aktif'"
+            :color="row.isActive ? 'emerald' : 'orange'"
             variant="solid"
             class="rounded-full"
           />

@@ -1,11 +1,11 @@
-import { Argon2id } from "oslo/password";
+import { verify } from "@node-rs/argon2";
 import { z } from "zod";
 
 const loginSchema = z
   .object({
     username: z.string(),
     password: z.string().min(8),
-    rememberMe: z.boolean().optional(),
+    rememberMe: z.boolean(),
   })
   .strict();
 
@@ -14,10 +14,7 @@ export default eventHandler(async (event) => {
 
   const res = loginSchema.parse(formData);
 
-  const username = res.username;
-  const password = res.password;
-
-  const existingUser = await getUserByUsername(username);
+  const existingUser = await getUserByUsername(res.username);
 
   if (!existingUser) {
     throw createError({
@@ -26,10 +23,8 @@ export default eventHandler(async (event) => {
     });
   }
 
-  const validPassword = await new Argon2id().verify(
-    existingUser.password,
-    password
-  );
+  const validPassword = await verify(existingUser.password, res.password);
+
   if (!validPassword) {
     throw createError({
       statusMessage: "Username atau password salah",
@@ -37,17 +32,10 @@ export default eventHandler(async (event) => {
     });
   }
 
-  const session = await lucia.createSession(existingUser.id, {});
+  const sessionToken = generateSessionToken();
+  const session = await createSession(sessionToken, existingUser.id);
   if (res.rememberMe) {
-    await extendSession(session.id, 2629743);
+    await extendSession(session.id, 1000 * 60 * 60 * 24 * 7);
   }
-  appendHeader(
-    event,
-    "Set-Cookie",
-    lucia.createSessionCookie(session.id).serialize()
-  );
-
-  return {
-    authSession: session,
-  };
+  setSessionTokenCookie(event, sessionToken, session.expiresAt);
 });

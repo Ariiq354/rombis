@@ -5,6 +5,7 @@
   }>();
 
   const user = useUser();
+  const topbarTitle = useTopbarTitle();
 
   const items = [
     [
@@ -30,22 +31,19 @@
 </script>
 
 <template>
-  <div id="topbar" class="flex justify-between">
-    <div class="flex items-center gap-4">
+  <div class="mb-8 flex justify-between">
+    <div class="flex items-center gap-8">
       <UButton
-        class="rounded-full p-2 transition-all duration-200 hover:bg-green-500 hover:text-white"
-        variant="ghost"
+        class="hover:bg-primary rounded-full bg-transparent p-2 text-black transition-all duration-300 hover:text-white dark:bg-transparent dark:text-white"
         @click="toggleSidebar"
       >
-        <UIcon name="i-heroicons-bars-3" class="h-5 w-5" />
+        <UIcon name="i-heroicons-bars-3" class="h-7 w-7" />
       </UButton>
-      <h1
-        class="font-semibold tracking-wide text-slate-600 dark:text-slate-400"
-      >
-        Rombis Lajon Dashboard
+      <h1 class="font-semibold text-gray-500 dark:text-gray-400">
+        {{ topbarTitle }}
       </h1>
     </div>
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-6">
       <UButton
         class="rounded-full p-2 text-black dark:text-white"
         variant="ghost"
@@ -54,11 +52,12 @@
         <UIcon
           v-if="colorMode.value === 'dark'"
           name="i-heroicons-moon-solid"
+          class="h-4 w-4"
         />
-        <UIcon v-else name="i-heroicons-sun-solid" />
+        <UIcon v-else name="i-heroicons-sun-solid" class="h-4 w-4" />
       </UButton>
       <UDropdown :items="items">
-        <UAvatar :alt="user ? user.username : 'Avatar'" />
+        <UAvatar class="bg-white" :alt="user ? user.username : 'Avatar'" />
       </UDropdown>
     </div>
   </div>

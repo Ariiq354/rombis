@@ -18,8 +18,6 @@ export default defineEventHandler(async (event) => {
 
   const res = ticketSchema.parse(formData);
 
-  console.log(formData);
-
   await updateTicket(res.id_ticket, {
     current: res.current,
   });

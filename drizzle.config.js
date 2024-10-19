@@ -6,4 +6,5 @@ export default {
     url: process.env.DATABASE_URL ?? "",
     authToken: process.env.DATABASE_AUTH_TOKEN ?? "",
   },
+  casing: "snake_case",
 };

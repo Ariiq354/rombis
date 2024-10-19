@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
       price: item.ticket_seat.price,
       seat: item.ticket_seat.seat,
       route: item.ticket_seat.route,
-      is_paid: item.ticket_seat.is_paid,
+      isPaid: item.ticket_seat.isPaid,
       created_at: item.ticket_seat.createdAt.slice(0, 10),
       username: item.user?.username,
     };

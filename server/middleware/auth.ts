@@ -1,9 +1,7 @@
-import { verifyRequestOrigin } from "lucia";
-
-import type { User, Session } from "lucia";
+import type { Session, UserLucia } from "../database/schema/auth";
 
 export default defineEventHandler(async (event) => {
-  if (event.node.req.method !== "GET") {
+  if (event.method !== "GET") {
     const originHeader = getHeader(event, "Origin") ?? null;
     const hostHeader = getHeader(event, "Host") ?? null;
     if (
@@ -17,27 +15,17 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const sessionId = getCookie(event, lucia.sessionCookieName) ?? null;
-  if (!sessionId) {
+  const sessionToken = getCookie(event, "auth_session") ?? null;
+  if (!sessionToken) {
     event.context.session = null;
     event.context.user = null;
     return;
   }
-  await lucia.deleteExpiredSessions();
-  const { session, user } = await lucia.validateSession(sessionId);
-  if (session && session.fresh) {
-    appendHeader(
-      event,
-      "Set-Cookie",
-      lucia.createSessionCookie(session.id).serialize()
-    );
-  }
-  if (!session) {
-    appendHeader(
-      event,
-      "Set-Cookie",
-      lucia.createBlankSessionCookie().serialize()
-    );
+  const { session, user } = await validateSessionToken(sessionToken);
+  if (session !== null) {
+    setSessionTokenCookie(event, sessionToken, session.expiresAt);
+  } else {
+    deleteSessionTokenCookie(event);
   }
   event.context.session = session;
   event.context.user = user;
@@ -45,7 +33,7 @@ export default defineEventHandler(async (event) => {
 
 declare module "h3" {
   interface H3EventContext {
-    user: User | null;
+    user: UserLucia | null;
     session: Session | null;
   }
 }

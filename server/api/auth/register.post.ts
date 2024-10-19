@@ -1,6 +1,6 @@
-import { generateIdFromEntropySize } from "lucia";
-import { Argon2id } from "oslo/password";
+import { hash } from "@node-rs/argon2";
 import { z } from "zod";
+import { generateIdFromEntropySize } from "~~/server/utils/lucia";
 
 const userSchema = z
   .object({
@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
   const parseRes = userSchema.parse(formData);
   const res = {
     ...parseRes,
-    password: await new Argon2id().hash(parseRes.password),
+    password: await hash(parseRes.password),
   };
 
   const exist = await getUserByUsername(res.username);

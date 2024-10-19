@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   const props = defineProps<{
-    function: (...args: any[]) => Promise<void>;
+    function: () => Promise<void>;
   }>();
 
   const emit = defineEmits(["success"]);
@@ -14,22 +14,22 @@
       await props.function();
       loading.value = false;
       emit("success");
-    } catch (error: any) {
-      useToastError(error.statusCode, error.statusMessage);
-      loading.value = false;
+    } catch (error: unknown) {
+      if (isNuxtError(error)) {
+        useToastError(String(error.statusCode), error.statusMessage);
+        loading.value = false;
+      }
     }
   }
 </script>
 
 <template>
-  <UModal prevent-close :ui="{ width: 'sm:max-w-sm' }">
-    <div class="space-y-4 p-4">
+  <UModal prevent-close :ui="{ width: 'sm:max-w-lg' }">
+    <div class="space-y-5 p-5">
       <div class="flex items-center justify-between">
-        <h3
-          class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
-        >
-          Konfirmasi
-        </h3>
+        <h1 class="text-xl font-semibold text-black dark:text-white">
+          Confirm
+        </h1>
         <UButton
           color="gray"
           variant="ghost"
@@ -40,24 +40,26 @@
       </div>
       <div class="flex items-center gap-4">
         <UIcon name="i-heroicons-exclamation-triangle" size="36" />
-        Apakah anda yakin ingin menghapus item ini?
+        Are you sure you want to delete the selected products?
       </div>
       <div class="flex w-full justify-end gap-2">
         <UButton
           icon="i-heroicons-x-mark-16-solid"
           variant="ghost"
           :disabled="loading"
+          class="text-base"
           @click="modal.close()"
         >
-          Tidak
+          No
         </UButton>
         <UButton
           icon="i-heroicons-check-16-solid"
           variant="ghost"
           :loading="loading"
+          class="text-base"
           @click="onClick"
         >
-          Iya
+          Yes
         </UButton>
       </div>
     </div>

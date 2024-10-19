@@ -12,13 +12,13 @@ export async function getAllTicketSeat() {
     .from(ticketSeatTable)
     .groupBy(ticketSeatTable.price, sql`DATE(ticket_seat.created_at)`)
     .orderBy(desc(ticketSeatTable.createdAt))
-    .leftJoin(userTable, eq(ticketSeatTable.id_user, userTable.id));
+    .leftJoin(userTable, eq(ticketSeatTable.userId, userTable.id));
 }
 
 export async function getTicketSeatByUserId(userId: string) {
   return await db.query.ticketSeatTable.findMany({
     orderBy: desc(ticketSeatTable.createdAt),
-    where: eq(ticketSeatTable.id_user, userId),
+    where: eq(ticketSeatTable.userId, userId),
     with: {
       ticket: {
         with: {
@@ -57,12 +57,12 @@ export async function updateTicketSeat(
 export async function updatePaidStatus(
   price: number,
   date: string,
-  is_paid: number
+  isPaid: number
 ) {
   return await db
     .update(ticketSeatTable)
     .set({
-      is_paid,
+      isPaid,
     })
     .where(
       and(eq(ticketSeatTable.price, price), eq(sql`DATE(created_at)`, date))

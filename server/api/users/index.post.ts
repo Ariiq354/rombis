@@ -1,12 +1,12 @@
-import { generateIdFromEntropySize } from "lucia";
-import { Argon2id } from "oslo/password";
+import { hash } from "@node-rs/argon2";
 import { z } from "zod";
+import { generateIdFromEntropySize } from "~~/server/utils/lucia";
 
 const userSchema = z.object({
   id: z.string().optional(),
   username: z.string(),
   password: z.string(),
-  is_active: z.boolean(),
+  isActive: z.boolean(),
 });
 
 export default defineEventHandler(async (event) => {
@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
     const itemData = {
       id: formData.id,
       username: formData.username,
-      is_active: formData.is_active,
+      isActive: formData.isActive,
     };
 
     await updateUser(formData.id, itemData);
@@ -42,7 +42,7 @@ export default defineEventHandler(async (event) => {
     const newData = {
       ...formData,
       id: generateIdFromEntropySize(10),
-      password: await new Argon2id().hash(formData.password),
+      password: await hash(formData.password),
     };
     await createUser(newData);
   }

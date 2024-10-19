@@ -1,8 +1,8 @@
-import type { User } from "lucia";
+import type { UserLucia } from "~~/server/database/schema/auth";
 
 export default defineNuxtRouteMiddleware(async (to) => {
   const user = useUser();
-  const data: User = await useRequestFetch()("/api/auth/session");
+  const data: UserLucia = await useRequestFetch()("/api/auth/session");
   if (data) {
     user.value = data;
   }

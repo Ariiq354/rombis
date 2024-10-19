@@ -1,4 +1,3 @@
-import { generateIdFromEntropySize } from "lucia";
 import { z } from "zod";
 
 const busSchema = z.object({

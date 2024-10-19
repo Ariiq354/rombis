@@ -1,7 +1,7 @@
-import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle";
 import { drizzle } from "drizzle-orm/libsql";
 import * as auth from "./schema/auth";
 import * as ticketing from "./schema/ticketing";
+
 const config = useRuntimeConfig();
 
 export const db = drizzle({
@@ -13,10 +13,5 @@ export const db = drizzle({
     ...auth,
     ...ticketing,
   },
+  casing: "snake_case",
 });
-
-export const adapter = new DrizzleSQLiteAdapter(
-  db,
-  auth.sessionTable,
-  auth.userTable
-);

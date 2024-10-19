@@ -1,63 +1,46 @@
-import { relations, sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { userTable } from "./auth";
+import { timestamp } from "./common";
 
 export const busTable = sqliteTable("bus", {
-  id: text("id").primaryKey(),
-  name: text("name").notNull(),
-  description: text("description").notNull(),
-  type: text("type").$type<"2x2" | "1x1" | "2x3" | "1x2">().notNull(),
-  seat: int("seat").notNull(),
-  route: text("route", { mode: "json" }).$type<string[]>().notNull(),
-  tikum: text("tikum", { mode: "json" }).$type<string[]>().notNull(),
-  createdAt: text("created_at")
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .notNull(),
-  updatedAt: text("updated_at")
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`)
-    .notNull(),
+  id: text().primaryKey(),
+  name: text().notNull(),
+  description: text().notNull(),
+  type: text().$type<"2x2" | "1x1" | "2x3" | "1x2">().notNull(),
+  seat: int().notNull(),
+  route: text({ mode: "json" }).$type<string[]>().notNull(),
+  tikum: text({ mode: "json" }).$type<string[]>().notNull(),
+  ...timestamp,
 });
 
 export const ticketTable = sqliteTable("ticket", {
-  id: text("id").primaryKey(),
-  date: text("date").notNull(),
-  id_bus: text("id_bus")
+  id: text().primaryKey(),
+  date: text().notNull(),
+  busId: text()
     .notNull()
     .references(() => busTable.id, { onDelete: "cascade" }),
-  price: text("price", { mode: "json" }).$type<number[]>().notNull(),
-  time: text("time", { mode: "json" }).$type<string[]>().notNull(),
-  current: text("current").notNull().default(""),
-  createdAt: text("created_at")
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .notNull(),
-  updatedAt: text("updated_at")
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`)
-    .notNull(),
+  price: text({ mode: "json" }).$type<number[]>().notNull(),
+  time: text({ mode: "json" }).$type<string[]>().notNull(),
+  current: text().notNull().default(""),
+  ...timestamp,
 });
 
 export const ticketSeatTable = sqliteTable("ticket_seat", {
-  id: text("id").primaryKey(),
-  id_ticket: text("id_ticket")
+  id: text().primaryKey(),
+  ticketId: text()
     .notNull()
     .references(() => ticketTable.id, { onDelete: "cascade" }),
-  id_user: text("id_user")
+  userId: text()
     .notNull()
     .references(() => userTable.id, { onDelete: "cascade" }),
-  seat: int("seat").notNull(),
-  price: int("price").notNull(),
-  name: text("name").notNull(),
-  tikum: text("tikum").notNull(),
-  route: text("route", { mode: "json" }).$type<[string, string]>().notNull(),
-  is_paid: int("is_paid").notNull().default(0),
-  createdAt: text("created_at")
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .notNull(),
-  updatedAt: text("updated_at")
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`)
-    .notNull(),
+  seat: int().notNull(),
+  price: int().notNull(),
+  name: text().notNull(),
+  tikum: text().notNull(),
+  route: text({ mode: "json" }).$type<[string, string]>().notNull(),
+  isPaid: int().notNull().default(0),
+  ...timestamp,
 });
 
 export const busRelations = relations(busTable, ({ many }) => ({
@@ -66,7 +49,7 @@ export const busRelations = relations(busTable, ({ many }) => ({
 
 export const ticketRelations = relations(ticketTable, ({ many, one }) => ({
   bus: one(busTable, {
-    fields: [ticketTable.id_bus],
+    fields: [ticketTable.busId],
     references: [busTable.id],
   }),
   ticketSeat: many(ticketSeatTable),
@@ -74,11 +57,11 @@ export const ticketRelations = relations(ticketTable, ({ many, one }) => ({
 
 export const ticketSeatRelations = relations(ticketSeatTable, ({ one }) => ({
   ticket: one(ticketTable, {
-    fields: [ticketSeatTable.id_ticket],
+    fields: [ticketSeatTable.ticketId],
     references: [ticketTable.id],
   }),
   user: one(userTable, {
-    fields: [ticketSeatTable.id_user],
+    fields: [ticketSeatTable.userId],
     references: [userTable.id],
   }),
 }));

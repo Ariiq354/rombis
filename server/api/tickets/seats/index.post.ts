@@ -1,9 +1,8 @@
-import { generateIdFromEntropySize } from "lucia";
 import { z } from "zod";
 
 const ticketSchema = z.object({
-  id_ticket: z.string(),
-  id_user: z.string(),
+  ticketId: z.string(),
+  userId: z.string(),
   price: z.number(),
   name: z.string().array(),
   seat: z.number().array(),

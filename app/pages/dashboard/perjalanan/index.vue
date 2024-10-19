@@ -25,9 +25,11 @@
       modalLoading.value = false;
       modalOpen.value = false;
       await refresh();
-    } catch (error: any) {
-      useToastError(error.statusCode, error.statusMessage);
-      modalLoading.value = false;
+    } catch (error: unknown) {
+      if (isNuxtError(error)) {
+        useToastError(String(error.statusCode), error.statusMessage);
+        modalLoading.value = false;
+      }
     }
   }
 
@@ -61,7 +63,7 @@
     }
   }
 
-  const container = ref<any>();
+  const container = ref<Element>();
 
   watch(container, async () => {
     if (container.value) {

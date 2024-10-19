@@ -1,28 +1,28 @@
-import { sql } from "drizzle-orm";
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { timestamp } from "./common";
+import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 
 export const userTable = sqliteTable("user", {
-  id: text("id").primaryKey(),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
-  is_active: int("is_active", { mode: "boolean" }).notNull().default(false),
-  role: int("role").notNull().default(0),
-  createdAt: text("created_at")
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .notNull(),
-  updatedAt: text("updated_at")
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`)
-    .notNull(),
+  id: text().primaryKey(),
+  username: text().notNull().unique(),
+  password: text().notNull(),
+  isActive: int({ mode: "boolean" }).notNull().default(false),
+  role: int().notNull().default(0),
+  ...timestamp,
 });
 
 export const sessionTable = sqliteTable("session", {
-  id: text("id").primaryKey(),
-  userId: text("user_id")
+  id: text().primaryKey(),
+  userId: text()
     .notNull()
     .references(() => userTable.id),
-  expiresAt: int("expires_at").notNull(),
+  expiresAt: int({ mode: "timestamp" }).notNull(),
 });
 
-export type User = typeof userTable.$inferSelect;
-export type NewUser = typeof userTable.$inferInsert;
+export type User = InferSelectModel<typeof userTable>;
+export type NewUser = InferInsertModel<typeof userTable>;
+
+export type UserLucia = Omit<User, "createdAt" | "updatedAt" | "password">;
+
+export type Session = InferSelectModel<typeof sessionTable>;
+export type NewSession = InferInsertModel<typeof sessionTable>;

@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     return {
       id: item.id,
       username: item.username,
-      is_active: item.is_active,
+      isActive: item.isActive,
     };
   });
 

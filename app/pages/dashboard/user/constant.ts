@@ -7,7 +7,7 @@ export const columns = [
     sortable: true,
   },
   {
-    key: "is_active",
+    key: "isActive",
     label: "Status",
     sortable: true,
   },
@@ -15,10 +15,10 @@ export const columns = [
 
 export const schema = z
   .object({
-    id: z.string(),
-    username: z.string(),
+    id: z.string().optional(),
+    username: z.string().min(1, "Required"),
     password: z.string(),
-    is_active: z.boolean(),
+    isActive: z.boolean(),
   })
   .refine(
     (data) => {
@@ -35,9 +35,9 @@ export const schema = z
 
 export type Schema = z.output<typeof schema>;
 
-export const initialFormData = {
+export const getInitialFormData = () => ({
   id: "",
-  username: undefined,
-  password: undefined,
-  is_active: false,
-};
+  username: "",
+  password: "",
+  isActive: false,
+});
