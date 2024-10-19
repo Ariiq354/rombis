@@ -7,6 +7,7 @@ const ticketSchema = z.object({
   price: z.number(),
   name: z.string().array(),
   seat: z.number().array(),
+  tikum: z.string().array(),
   route: z.tuple([z.string(), z.string()]),
 });
 
@@ -22,6 +23,7 @@ export default defineEventHandler(async (event) => {
       ...res,
       seat: item,
       name: res.name[index],
+      tikum: res.tikum[index],
       id: generateIdFromEntropySize(10),
     };
 

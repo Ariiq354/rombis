@@ -48,6 +48,7 @@ export const ticketSeatTable = sqliteTable("ticket_seat", {
   seat: int("seat").notNull(),
   price: int("price").notNull(),
   name: text("name").notNull(),
+  tikum: text("tikum").notNull(),
   route: text("route", { mode: "json" }).$type<[string, string]>().notNull(),
   is_paid: int("is_paid").notNull().default(0),
   createdAt: text("created_at")
