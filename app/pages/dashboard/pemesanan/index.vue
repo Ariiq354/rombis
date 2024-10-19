@@ -48,7 +48,6 @@
 <template>
   <main>
     <UModal v-model="modalOpen" prevent-close>
-      {{ state }}
       <div class="p-4">
         <div class="mb-4 flex items-center justify-between">
           <h3
