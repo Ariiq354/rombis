@@ -24,7 +24,7 @@ export const ticketTable = sqliteTable("ticket", {
   date: text("date").notNull(),
   id_bus: text("id_bus")
     .notNull()
-    .references(() => busTable.id),
+    .references(() => busTable.id, { onDelete: "cascade" }),
   price: text("price", { mode: "json" }).$type<number[]>().notNull(),
   time: text("time", { mode: "json" }).$type<string[]>().notNull(),
   current: text("current").notNull().default(""),
@@ -41,10 +41,10 @@ export const ticketSeatTable = sqliteTable("ticket_seat", {
   id: text("id").primaryKey(),
   id_ticket: text("id_ticket")
     .notNull()
-    .references(() => ticketTable.id),
+    .references(() => ticketTable.id, { onDelete: "cascade" }),
   id_user: text("id_user")
     .notNull()
-    .references(() => userTable.id),
+    .references(() => userTable.id, { onDelete: "cascade" }),
   seat: int("seat").notNull(),
   price: int("price").notNull(),
   name: text("name").notNull(),
