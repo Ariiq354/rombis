@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const querySchema = z
   .object({
-    is_available: z.boolean().optional(),
+    is_available: z.coerce.boolean().optional(),
   })
   .strict();
 
