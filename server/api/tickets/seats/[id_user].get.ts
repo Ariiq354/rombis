@@ -23,6 +23,7 @@ export default defineEventHandler(async (event) => {
           is_paid: item.is_paid,
           route: item.route,
           ticket: ticketData,
+          created_at: item.createdAt,
         };
       });
 
