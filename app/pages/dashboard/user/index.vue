@@ -56,6 +56,7 @@
 
   async function clickUpdate(itemData: ExtractObjectType<typeof data.value>) {
     modalOpen.value = true;
+    state.value.id = itemData.id;
     state.value.username = itemData.username;
     state.value.password = "";
     state.value.isActive = itemData.isActive;
@@ -65,6 +66,7 @@
 <template>
   <main>
     <UModal v-model="modalOpen" prevent-close>
+      {{ state }}
       <div class="px-4 py-5">
         <div class="mb-4 flex items-center justify-between">
           <h3
