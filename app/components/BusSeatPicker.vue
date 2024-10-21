@@ -1,7 +1,7 @@
 <script setup lang="ts">
   const props = defineProps<{
     seat: number;
-    type: '1x1' | '1x2' | '2x2' | '2x3';
+    type: string;
     fill?: number[];
   }>();
 
@@ -11,13 +11,13 @@
 
   function spanColumn(index: number) {
     switch (props.type) {
-      case '1x1':
+      case "1x1":
         return index % 2 === 1;
-      case '1x2':
+      case "1x2":
         return index % 3 === 1;
-      case '2x2':
+      case "2x2":
         return index % 4 === 2;
-      case '2x3':
+      case "2x3":
         return index % 5 === 2;
       default:
         return false;

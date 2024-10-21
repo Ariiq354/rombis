@@ -2,7 +2,7 @@
   import type { FormSubmitEvent } from "#ui/types";
   import {
     columns,
-    initialFormData,
+    getInitialFormData,
     schema,
     selectColumns,
     type Schema,
@@ -12,14 +12,13 @@
   // Fetch data
   const { data, status, refresh } = await useLazyFetch("/api/tickets/seats");
 
-  const state = ref({ ...initialFormData });
+  const state = ref(getInitialFormData());
 
   const modalOpen = ref(false);
   const modalLoading = ref(false);
   async function onSubmit(event: FormSubmitEvent<Schema>) {
+    modalLoading.value = true;
     try {
-      modalLoading.value = true;
-
       await $fetch("/api/tickets/seats/edit", {
         method: "POST",
         body: {
@@ -28,7 +27,6 @@
         },
       });
 
-      modalLoading.value = false;
       modalOpen.value = false;
       await refresh();
     } catch (error: unknown) {
@@ -36,21 +34,22 @@
         useToastError(String(error.statusCode), error.statusMessage);
         modalLoading.value = false;
       }
+    } finally {
+      modalLoading.value = false;
     }
   }
 
   async function clickUpdate(itemData: ExtractObjectType<typeof data.value>) {
     modalOpen.value = true;
-    state.value.isPaid = itemData.isPaid;
-    state.value.created_at = itemData.created_at;
-    state.value.price = itemData.price;
+    state.value = itemData;
   }
 </script>
 
 <template>
   <main>
+    <Title>Pemesanan</Title>
     <UModal v-model="modalOpen" prevent-close>
-      <div class="p-4">
+      <div class="px-4 py-5">
         <div class="mb-4 flex items-center justify-between">
           <h3
             class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
@@ -101,11 +100,20 @@
         </UForm>
       </div>
     </UModal>
-    <UCard>
-      <div class="mb-6 flex items-center rounded-lg border p-4">
+    <UCard
+      :ui="{
+        body: {
+          padding: 'sm:p-8',
+        },
+      }"
+    >
+      <div
+        class="mb-6 flex items-center rounded-lg border border-gray-200 p-3 dark:border-gray-700"
+      >
         <UButton
           icon="i-heroicons-arrow-up-tray"
           variant="soft"
+          class="gap-2 text-base text-black disabled:opacity-50 dark:text-white"
           :disabled="!(data && data.length > 0)"
           @click="json2Csv(data!)"
         >
@@ -113,9 +121,9 @@
         </UButton>
       </div>
       <AppTable
+        label="Kelola Pemesanan"
         :columns="columns"
         :data="data"
-        label="Kelola Pemesanan"
         :loading="status === 'pending'"
         @edit-click="(e) => clickUpdate(e)"
       >

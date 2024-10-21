@@ -39,8 +39,8 @@ export const schema = z.object({
 
 export type Schema = z.output<typeof schema>;
 
-export const initialFormData = {
+export const getInitialFormData = () => ({
   price: 0,
   created_at: "",
   isPaid: 0,
-};
+});

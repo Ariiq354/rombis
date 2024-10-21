@@ -1,6 +1,11 @@
 <script setup lang="ts">
   import type { FormSubmitEvent } from "#ui/types";
-  import { columns, getInitialFormData, schema, type Schema } from "./constant";
+  import {
+    columns,
+    getInitialFormData,
+    schema,
+    type Schema,
+  } from "./constants";
   import { json2Csv } from "~/utils";
 
   const { data, status, refresh } = await useLazyFetch("/api/users");
@@ -12,15 +17,12 @@
   const modalOpen = ref(false);
   const modalLoading = ref(false);
   async function onSubmit(event: FormSubmitEvent<Schema>) {
+    modalLoading.value = true;
     try {
-      modalLoading.value = true;
-
       await $fetch("/api/users", {
         method: "POST",
         body: event.data,
       });
-
-      modalLoading.value = false;
       modalOpen.value = false;
       await refresh();
     } catch (error: unknown) {
@@ -28,6 +30,8 @@
         useToastError(String(error.statusCode), error.statusMessage);
         modalLoading.value = false;
       }
+    } finally {
+      modalLoading.value = false;
     }
   }
 
@@ -65,14 +69,14 @@
 
 <template>
   <main>
+    <Title>User</Title>
     <UModal v-model="modalOpen" prevent-close>
-      {{ state }}
       <div class="px-4 py-5">
         <div class="mb-4 flex items-center justify-between">
           <h3
             class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
           >
-            {{ state.id ? "Edit" : "Add" }} User
+            {{ state.id ? "Edit" : "Tambah" }} User
           </h3>
           <UButton
             color="gray"
@@ -157,8 +161,7 @@
         <UButton
           icon="i-heroicons-arrow-up-tray"
           variant="soft"
-          size="lg"
-          class="gap-2 text-base text-black dark:text-white"
+          class="gap-2 text-base text-black disabled:opacity-50 dark:text-white"
           :disabled="!(data && data.length > 0)"
           @click="json2Csv(data!)"
         >

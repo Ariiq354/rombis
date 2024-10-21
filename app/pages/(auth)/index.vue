@@ -1,28 +1,29 @@
 <script setup lang="ts">
   import type { FormSubmitEvent } from "#ui/types";
-  import { type Schema, getInitialState, loginSchema } from "./constants";
+  import { type Schema, getInitialFormData, loginSchema } from "./constants";
 
   definePageMeta({
     layout: "auth",
   });
 
-  const state = ref(getInitialState());
+  const state = ref(getInitialFormData());
 
   const isLoading = ref(false);
   async function onSubmit(event: FormSubmitEvent<Schema>) {
+    isLoading.value = true;
     try {
-      isLoading.value = true;
       await $fetch("/api/auth/login", {
         method: "POST",
         body: event.data,
       });
       await navigateTo("/dashboard");
-      isLoading.value = false;
     } catch (error: unknown) {
       if (isNuxtError(error)) {
         useToastError(String(error.statusCode), error.statusMessage);
         isLoading.value = false;
       }
+    } finally {
+      isLoading.value = false;
     }
   }
 </script>

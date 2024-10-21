@@ -89,7 +89,7 @@
 <template>
   <main>
     <UModal v-model="modalOpen" :ui="{ width: 'sm:max-w-4xl' }" prevent-close>
-      <div class="p-4">
+      <div class="px-4 py-5">
         <div class="mb-4 flex items-center justify-between">
           <h3
             class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
@@ -240,29 +240,43 @@
         </UForm>
       </div>
     </UModal>
-    <UCard>
-      <div class="mb-6 flex items-center justify-between rounded-lg border p-4">
+    <UCard
+      :ui="{
+        body: {
+          padding: 'sm:p-8',
+        },
+      }"
+    >
+      <div
+        class="mb-6 flex items-center justify-between rounded-lg border border-gray-200 p-3 dark:border-gray-700"
+      >
         <div class="flex gap-2">
-          <UButton icon="i-heroicons-plus" variant="soft" @click="clickAdd">
-            Add
+          <UButton
+            icon="i-heroicons-plus"
+            variant="soft"
+            class="gap-2 text-base text-black dark:text-white"
+            @click="clickAdd"
+          >
+            Tambah
           </UButton>
           <UButton
             icon="i-heroicons-trash"
             variant="soft"
-            class="disabled:opacity-50"
+            class="gap-2 text-base text-black disabled:opacity-50 dark:text-white"
             :disabled="deleteArray.length === 0"
             @click="clickDelete"
           >
-            Delete
+            Hapus
           </UButton>
         </div>
         <UButton
           icon="i-heroicons-arrow-up-tray"
           variant="soft"
+          class="gap-2 text-base text-black disabled:opacity-50 dark:text-white"
           :disabled="!(data && data.length > 0)"
           @click="json2Csv(data!)"
         >
-          Export
+          Eksport
         </UButton>
       </div>
       <div v-if="data && data.length > 0" class="grid grid-cols-4 gap-2">

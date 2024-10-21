@@ -9,16 +9,16 @@
   const loading = ref(false);
   async function onClick() {
     loading.value = true;
-
     try {
       await props.function();
-      loading.value = false;
       emit("success");
     } catch (error: unknown) {
       if (isNuxtError(error)) {
         useToastError(String(error.statusCode), error.statusMessage);
         loading.value = false;
       }
+    } finally {
+      loading.value = false;
     }
   }
 </script>
@@ -28,7 +28,7 @@
     <div class="space-y-5 p-5">
       <div class="flex items-center justify-between">
         <h1 class="text-xl font-semibold text-black dark:text-white">
-          Confirm
+          Konfimasi
         </h1>
         <UButton
           color="gray"
@@ -40,7 +40,7 @@
       </div>
       <div class="flex items-center gap-4">
         <UIcon name="i-heroicons-exclamation-triangle" size="36" />
-        Are you sure you want to delete the selected products?
+        Apakah Anda yakin ingin menghapus item yang dipilih?
       </div>
       <div class="flex w-full justify-end gap-2">
         <UButton
@@ -50,7 +50,7 @@
           class="text-base"
           @click="modal.close()"
         >
-          No
+          Tidak
         </UButton>
         <UButton
           icon="i-heroicons-check-16-solid"
@@ -59,7 +59,7 @@
           class="text-base"
           @click="onClick"
         >
-          Yes
+          Iya
         </UButton>
       </div>
     </div>

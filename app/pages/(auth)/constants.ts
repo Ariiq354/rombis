@@ -9,7 +9,7 @@ export const loginSchema = z.object({
   rememberMe: z.boolean(),
 });
 
-export const getInitialState = () => ({
+export const getInitialFormData = () => ({
   username: "",
   password: "",
   rememberMe: false,

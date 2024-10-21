@@ -51,7 +51,7 @@
     <div class="text-primary flex items-center justify-center pb-8 pt-10">
       <div class="flex items-center gap-2 text-2xl tracking-widest">
         <UIcon name="i-heroicons-globe-alt" class="h-8 w-8" />
-        <span>LOREM</span>
+        <span>ROMBIS</span>
       </div>
     </div>
     <div v-for="(firstItem, firstIndex) in sidebarItems" :key="firstIndex">
