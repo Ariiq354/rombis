@@ -8,6 +8,10 @@
   } from "./constants";
   import { json2Csv } from "~/utils";
 
+  onMounted(() => {
+    defineTopbarTitle("User");
+  });
+
   const { data, status, refresh } = await useLazyFetch("/api/users");
 
   const table = useTemplateRef("tableRef");

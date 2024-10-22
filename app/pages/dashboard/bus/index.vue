@@ -9,6 +9,10 @@
   } from "./constants";
   import { json2Csv } from "#imports";
 
+  onMounted(() => {
+    defineTopbarTitle("Bus");
+  });
+
   const { data, status, refresh } = await useLazyFetch("/api/bus");
 
   const table = useTemplateRef("tableRef");

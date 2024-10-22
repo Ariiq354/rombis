@@ -3,6 +3,10 @@
   import { createSwapy } from "swapy";
   import { initialFormData, schema, type Schema } from "./constant";
 
+  onMounted(() => {
+    defineTopbarTitle("Perjalanan");
+  });
+
   // Fetch data
   const { data, status, refresh } = await useLazyFetch("/api/perjalanan");
   const ticketData = computed(() => {
@@ -90,7 +94,7 @@
 <template>
   <main>
     <UModal v-model="modalOpen" :ui="{ width: 'sm:max-w-4xl' }" prevent-close>
-      <div class="p-4">
+      <div class="px-4 py-5">
         <div class="mb-4 flex items-center justify-between">
           <h3
             class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
@@ -192,7 +196,8 @@
         >
           <div class="flex items-center justify-between">
             <h1 class="font-bold">{{ item.bus.name }}</h1>
-            <h2>
+            <h2 class="flex items-center gap-2">
+              <UIcon name="i-heroicons-calendar-days" size="16" />
               {{ item.date }}
             </h2>
           </div>
@@ -220,15 +225,17 @@
               </div>
             </div>
             <div class="flex flex-col items-end">
-              <p>{{ item.bus.seat }} kursi</p>
+              <p>{{ item.bus.seat }} Kursi</p>
               <p>{{ item.bus.type }}</p>
             </div>
           </div>
-          <div
-            class="flex items-center justify-end font-semibold text-blue-600"
-          >
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <UIcon name="i-heroicons-map-pin" size="16" />
+              {{ item.current ? item.current : "Belum Berangkat" }}
+            </div>
             <UButton
-              class="rounded-full"
+              variant="soft"
               @click.stop="() => clickUpdate(item.id_ticket)"
             >
               Pilih

@@ -9,7 +9,10 @@
   } from "./constant";
   import { json2Csv } from "~/utils";
 
-  // Fetch data
+  onMounted(() => {
+    defineTopbarTitle("Pemesanan");
+  });
+
   const { data, status, refresh } = await useLazyFetch("/api/tickets/seats");
 
   const state = ref(getInitialFormData());

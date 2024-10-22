@@ -1,13 +1,17 @@
 <script setup lang="ts">
   import type { FormSubmitEvent } from "#ui/types";
-  import { initialFormData, schema, type Schema } from "./constant";
   import { json2Csv } from "#imports";
+  import { getInitialFormData, schema, type Schema } from "./constant";
+
+  onMounted(() => {
+    defineTopbarTitle("Ticket");
+  });
 
   // Fetch data
   const { data: busData, status: busStatus } = await useLazyFetch("/api/bus");
   const { data, status, refresh } = await useLazyFetch("/api/tickets");
 
-  const state = ref({ ...initialFormData });
+  const state = ref(getInitialFormData());
   const selectedBus = computed(() => {
     if (busData.value) {
       return busData.value.find((item) => item.id === state.value.busId);
@@ -52,9 +56,7 @@
   }
 
   function clickAdd() {
-    Object.assign(state, initialFormData);
-    state.value.time = ["", ""];
-    state.value.price = [0];
+    state.value = getInitialFormData();
     modalOpen.value = true;
   }
 
@@ -94,7 +96,7 @@
           <h3
             class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
           >
-            {{ state.id ? "Edit" : "Add" }} Ticket
+            {{ state.id ? "Edit" : "Tambah" }} Ticket
           </h3>
           <UButton
             color="gray"
@@ -227,14 +229,14 @@
               :disabled="modalLoading"
               @click="modalOpen = false"
             >
-              Cancel
+              Batal
             </UButton>
             <UButton
               type="submit"
               icon="i-heroicons-check-16-solid"
               :loading="modalLoading"
             >
-              Save
+              Simpan
             </UButton>
           </div>
         </UForm>
@@ -297,8 +299,9 @@
           "
         >
           <div class="flex items-center justify-between">
-            <!-- <h1 class="font-bold">{{ item.bus.name }}</h1> -->
-            <h2>
+            <h1 class="text font-semibold">{{ item.bus.name }}</h1>
+            <h2 class="flex items-center gap-2">
+              <UIcon name="i-heroicons-calendar-days" size="16" />
               {{ item.date }}
             </h2>
           </div>
@@ -326,12 +329,12 @@
               </div>
             </div>
             <div class="flex flex-col items-end">
-              <p>{{ item.bus.seat }} kursi</p>
+              <p>{{ item.bus.seat }} Kursi</p>
               <p>{{ item.bus.type }}</p>
             </div>
           </div>
           <div
-            class="flex items-center justify-between font-semibold text-blue-600"
+            class="text-primary-500 dark:text-primary-400 flex items-center justify-between font-semibold"
           >
             <p>
               {{
@@ -343,10 +346,12 @@
               }}
             </p>
             <UButton
-              class="rounded-full"
+              size="md"
+              variant="soft"
               @click.stop="() => clickUpdate(item.id)"
-              >Pilih</UButton
             >
+              Pilih
+            </UButton>
           </div>
         </div>
       </div>
