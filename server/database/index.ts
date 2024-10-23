@@ -6,8 +6,8 @@ const config = useRuntimeConfig();
 
 export const db = drizzle({
   connection: {
-    url: config.databaseUrl,
-    authToken: config.databaseAuthToken,
+    url: config.databaseUrl as string,
+    authToken: config.databaseAuthToken as string,
   },
   schema: {
     ...auth,

@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
     event.context.user = null;
     return;
   }
-  const { session, user } = await validateSessionToken(sessionToken);
+  const { session, user } = await validateSession(sessionToken);
   if (session !== null) {
     setSessionTokenCookie(event, sessionToken, session.expiresAt);
   } else {

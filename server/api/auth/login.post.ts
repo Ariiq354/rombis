@@ -32,10 +32,9 @@ export default eventHandler(async (event) => {
     });
   }
 
-  const sessionToken = generateSessionToken();
-  const session = await createSession(sessionToken, existingUser.id);
+  const session = await createSession(existingUser.id);
   if (res.rememberMe) {
     await extendSession(session.id, 1000 * 60 * 60 * 24 * 7);
   }
-  setSessionTokenCookie(event, sessionToken, session.expiresAt);
+  setSessionTokenCookie(event, session.id, session.expiresAt);
 });

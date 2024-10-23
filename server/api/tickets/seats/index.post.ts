@@ -18,11 +18,14 @@ export default defineEventHandler(async (event) => {
   const res = ticketSchema.parse(formData);
 
   res.seat.forEach(async (item, index) => {
+    const name = res.name[index] ? res.name[index] : "";
+    const tikum = res.tikum[index] ? res.tikum[index] : "";
+
     const itemData = {
       ...res,
       seat: item,
-      name: res.name[index],
-      tikum: res.tikum[index],
+      name: name,
+      tikum: tikum,
       id: generateIdFromEntropySize(10),
     };
 

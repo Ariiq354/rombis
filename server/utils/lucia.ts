@@ -12,54 +12,47 @@ import {
   updateSessionData,
 } from "./data-access/session";
 
-export function generateSessionToken(): string {
-  const bytes = new Uint8Array(20);
-  crypto.getRandomValues(bytes);
+const DAY_IN_MS = 1000 * 60 * 60 * 24;
+
+export const sessionCookieName = "auth_session";
+
+function generateSessionToken(): string {
+  const bytes = crypto.getRandomValues(new Uint8Array(20));
   const token = encodeBase32LowerCaseNoPadding(bytes);
   return token;
 }
 
-export async function createSession(
-  token: string,
-  userId: string
-): Promise<Omit<Session, "createdAt" | "updatedAt">> {
+export async function createSession(userId: string): Promise<Session> {
+  const token = generateSessionToken();
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const session = {
     id: sessionId,
     userId,
-    expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * SESSION_AGE),
+    expiresAt: new Date(Date.now() + DAY_IN_MS),
   };
   await insertSessionData(session);
   return session;
 }
 
-export async function validateSessionToken(
-  token: string
-): Promise<SessionValidationResult> {
-  const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-  const result = await getUserSessionById(sessionId);
-  if (result.length < 1) {
+export async function invalidateSession(sessionId: string): Promise<void> {
+  await deleteSessionData(sessionId);
+}
+
+export async function validateSession(sessionId: string) {
+  const [result] = await getUserSessionById(sessionId);
+  if (!result) {
     return { session: null, user: null };
   }
-  const { user, session } = result[0];
+  const { user, session } = result;
   if (Date.now() >= session.expiresAt.getTime()) {
     await deleteSessionData(session.id);
     return { session: null, user: null };
   }
-  if (
-    Date.now() >=
-    session.expiresAt.getTime() - 1000 * 60 * 60 * 24 * (SESSION_AGE / 2)
-  ) {
-    session.expiresAt = new Date(
-      Date.now() + 1000 * 60 * 60 * 24 * SESSION_AGE
-    );
+  if (Date.now() >= session.expiresAt.getTime() - DAY_IN_MS / 2) {
+    session.expiresAt = new Date(Date.now() + DAY_IN_MS);
     await updateSessionData(session.id, session);
   }
   return { session, user };
-}
-
-export async function invalidateSession(sessionId: string): Promise<void> {
-  await deleteSessionData(sessionId);
 }
 
 export function setSessionTokenCookie(
@@ -67,7 +60,7 @@ export function setSessionTokenCookie(
   token: string,
   expiresAt: Date
 ) {
-  setCookie(event, "auth_session", token, {
+  setCookie(event, sessionCookieName, token, {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
@@ -77,7 +70,7 @@ export function setSessionTokenCookie(
 }
 
 export function deleteSessionTokenCookie(event: H3Event) {
-  deleteCookie(event, "auth_session");
+  deleteCookie(event, sessionCookieName);
 }
 
 export function verifyRequestOrigin(
@@ -121,5 +114,3 @@ export function generateIdFromEntropySize(size: number): string {
 export type SessionValidationResult =
   | { session: Session; user: UserLucia }
   | { session: null; user: null };
-
-const SESSION_AGE = 1;
